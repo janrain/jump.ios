@@ -495,6 +495,10 @@
 
     [myWebView stopLoading];
 
+    // Must set delegate to nil to avoid this controller being called after
+    // it has been freed by the web view.
+    myWebView.delegate = nil;
+
     [JRConnectionManager stopConnectionsForDelegate:self];
     [self stopProgress];
 
