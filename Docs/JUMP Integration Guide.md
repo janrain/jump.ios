@@ -1,4 +1,4 @@
-# JUMP for iOS Integration Guide
+# JUMP for iOS Integration Guidx
 
 This guide describes integrating the Janrain User Management Platform into your iOS app. For Engage-only
 integrations see `Engage-Only Integration Guide.md`
