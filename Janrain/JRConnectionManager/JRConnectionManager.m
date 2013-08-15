@@ -307,7 +307,7 @@ static JRConnectionManager *singleton = nil;
                                    NSString *bodyString =
                                            [[[NSString alloc] initWithData:d
                                                                   encoding:NSUTF8StringEncoding] autorelease];
-                                   NSError *err;
+                                   NSError *err=nil;
                                    id parsedJson = [NSJSONSerialization JSONObjectWithData:d
                                                                                    options:(NSJSONReadingOptions) 0
                                                                                      error:&err];
