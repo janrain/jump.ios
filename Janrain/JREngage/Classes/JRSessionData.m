@@ -1353,7 +1353,7 @@ static JRSessionData *singleton = nil;
 
     NSMutableDictionary *urls = [NSMutableDictionary dictionaryWithCapacity:3];
     if (theActivity.email.urls) [urls setObject:theActivity.email.urls forKey:@"email"];
-    if (theActivity.sms.urls)   [urls setObject:theActivity.email.urls forKey:@"sms"];
+    if (theActivity.sms.urls)   [urls setObject:theActivity.sms.urls forKey:@"sms"];
     if (theActivity.url)        [urls setObject:[NSArray arrayWithObject:theActivity.url] forKey:@"activity"];
 
     NSString *urlsArg = [[urls JR_jsonString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
