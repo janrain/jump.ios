@@ -94,38 +94,51 @@ typedef enum
 
 - (void)loadView
 {
-    myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, 170) style:UITableViewStyleGrouped];
+    myTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     myTableView.backgroundColor = [UIColor clearColor];
     myTableView.scrollEnabled   = NO;
 
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-
-    [button setFrame:CGRectMake(10, 2, 300, 40)];
-    [button setBackgroundImage:[UIImage imageNamed:@"button_janrain_280x40.png"]
-                      forState:UIControlStateNormal];
-
-    [button setTitle:NSLocalizedString(@"Sign In", nil) forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
-
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-
-    [button addTarget:self
-               action:@selector(signInButtonTouchUpInside:)
-     forControlEvents:UIControlEventTouchUpInside];
-
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-    [footerView addSubview:button];
-
-    myTableView.tableFooterView = footerView;
+    myTableView.tableFooterView = [self createFooterView];
     myTableView.dataSource = self;
     myTableView.delegate = self;
 
     self.view = myTableView;
 
     [self.view setClipsToBounds:NO];
+}
 
-//    [self createLoadingView];
+-(UIView*)createFooterView
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    [button setBackgroundImage:[UIImage imageNamed:@"button_janrain_280x40.png"]
+                      forState:UIControlStateNormal];
+    
+    [button setTitle:NSLocalizedString(@"Sign In", nil) forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+    
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    
+    [button addTarget:self
+               action:@selector(signInButtonTouchUpInside:)
+     forControlEvents:UIControlEventTouchUpInside];
+    
+    UIView *footerView = [[UIView alloc] init];
+    [footerView addSubview:button];
+    
+    [button setTranslatesAutoresizingMaskIntoConstraints:NO];
+    NSDictionary* viewsDictionary = NSDictionaryOfVariableBindings(button);
+    [footerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[button]-10-|" options:0 metrics:nil views:viewsDictionary]];
+    [footerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-2-[button(40)]-|" options:0 metrics:nil views:viewsDictionary]];
+    
+    CGFloat height = [footerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    CGRect frame = footerView.frame;
+    
+    frame.size.height = height;
+    footerView.frame = frame;
+
+    return footerView;
 }
 
 - (void)viewDidLoad
@@ -188,7 +201,7 @@ typedef enum
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
 
-        textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 7, 280, 26)];
+        textField = [[UITextField alloc] init];
 
         textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -197,7 +210,7 @@ typedef enum
         textField.returnKeyType = UIReturnKeyDone;
         textField.delegate = self;
 
-        [cell.contentView addSubview:textField];
+        [self pinView:textField toSidesOfCell:cell withInsets:UIEdgeInsetsMake(7.0, 10.0, 7.0, 10.0)];
 
         if (indexPath.row == 0)
         {
@@ -221,6 +234,21 @@ typedef enum
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
+}
+
+- (void)pinView:(UIView*)subView toSidesOfCell:(UITableViewCell*)cell withInsets:(UIEdgeInsets)insets
+{
+    [subView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [cell.contentView addSubview:subView];
+    
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(subView);
+    
+    NSString *horizontalFormat = [NSString stringWithFormat:@"H:|-%1f-[subView]-%1f-|", insets.left, insets.right];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:horizontalFormat options:0 metrics:nil views:viewsDictionary]];
+    NSString *verticalFormat = [NSString stringWithFormat:@"V:|-%1f-[subView]-%1f-|", insets.top, insets.bottom];
+    [cell.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:verticalFormat options:0 metrics:nil views:viewsDictionary]];
+    
+    [cell.contentView setNeedsLayout];
 }
 
 

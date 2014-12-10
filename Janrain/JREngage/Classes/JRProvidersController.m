@@ -355,44 +355,45 @@
 
 - (void)createTraditionalSignInLoadingView
 {
-    self.myTraditionalSignInLoadingView = [[UIView alloc] initWithFrame:self.view.frame];
-
+    self.myTraditionalSignInLoadingView = [[UIView alloc] init];
     [self.myTraditionalSignInLoadingView setBackgroundColor:[UIColor blackColor]];
+    [self.myTraditionalSignInLoadingView setTranslatesAutoresizingMaskIntoConstraints:NO];
 
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 180, 320, 30)];
+    UILabel *loadingLabel = [[UILabel alloc] init];
 
     [loadingLabel setText:NSLocalizedString(@"Completing Sign-In...",nil)];
     [loadingLabel setFont:[UIFont systemFontOfSize:20.0]];
     [loadingLabel setTextAlignment:(int)JR_TEXT_ALIGN_CENTER];
     [loadingLabel setTextColor:[UIColor whiteColor]];
     [loadingLabel setBackgroundColor:[UIColor clearColor]];
-    [loadingLabel setAutoresizingMask:UIViewAutoresizingNone |
-            UIViewAutoresizingFlexibleTopMargin |
-            UIViewAutoresizingFlexibleBottomMargin |
-            UIViewAutoresizingFlexibleRightMargin |
-            UIViewAutoresizingFlexibleLeftMargin];
+    [loadingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
 
     UIActivityIndicatorView *loadingSpinner =
             [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-
-    [loadingSpinner setFrame:CGRectMake(142, self.view.frame.size.height / 2 - 16, 37, 37)];
-    [loadingLabel setAutoresizingMask:UIViewAutoresizingNone |
-            UIViewAutoresizingFlexibleTopMargin |
-            UIViewAutoresizingFlexibleBottomMargin |
-            UIViewAutoresizingFlexibleRightMargin |
-            UIViewAutoresizingFlexibleLeftMargin];
+    [loadingSpinner setTranslatesAutoresizingMaskIntoConstraints:NO];
 
     [loadingLabel setTag:LOADING_VIEW_LABEL_TAG];
     [loadingSpinner setTag:LOADING_VIEW_SPINNER_TAG];
 
     [myTraditionalSignInLoadingView addSubview:loadingLabel];
     [myTraditionalSignInLoadingView addSubview:loadingSpinner];
+    
+    NSDictionary *viewsDict = NSDictionaryOfVariableBindings(loadingLabel, loadingSpinner, myTraditionalSignInLoadingView);
+    NSString *verticalFormat = @"V:|-180-[loadingLabel(30)]-14-[loadingSpinner(37)]";
+    [myTraditionalSignInLoadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:verticalFormat options:0 metrics:nil views:viewsDict]];
+    [myTraditionalSignInLoadingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[loadingLabel]|" options:0 metrics:nil views:viewsDict]];
+    [myTraditionalSignInLoadingView addConstraint:[NSLayoutConstraint constraintWithItem:loadingSpinner attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:37.0]];
+    [myTraditionalSignInLoadingView addConstraint:[NSLayoutConstraint constraintWithItem:myTraditionalSignInLoadingView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:loadingSpinner attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    [myTraditionalSignInLoadingView setNeedsLayout];
 
     [myTraditionalSignInLoadingView setTag:LOADING_VIEW_TAG];
     [myTraditionalSignInLoadingView setHidden:YES];
     [myTraditionalSignInLoadingView setAlpha:0.0];
 
     [self.view addSubview:myTraditionalSignInLoadingView];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[myTraditionalSignInLoadingView]|" options:0 metrics:nil views:viewsDict]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[myTraditionalSignInLoadingView]|" options:0 metrics:nil views:viewsDict]];
+    [self.view setNeedsLayout];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
