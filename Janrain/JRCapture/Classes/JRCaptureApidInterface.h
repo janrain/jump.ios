@@ -38,7 +38,7 @@
 
 @protocol JRCaptureDelegate;
 
-NSString *const kJRTradAuthUrlPath;
+FOUNDATION_EXPORT NSString *const kJRTradAuthUrlPath;
 
 /**
  * @internal
