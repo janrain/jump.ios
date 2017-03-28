@@ -15,4 +15,7 @@ Pod::Spec.new do |s|
   s.exclude_files = "Janrain/JRCapture/**/*"
   s.resources     = ["Janrain/JREngage/Resources/**/*", "Janrain/JREngage/**/*.js"]
   s.requires_arc  = true
+  s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "$(PODS_TARGET_SRCROOT)/AppAuth/Source" }
+  s.dependency 'AppAuth'
+ 
 end
