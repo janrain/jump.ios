@@ -25,7 +25,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "AppAuth.h"
+#import <AppAuth/AppAuth.h>
 
 @protocol JROpenIDAppAuthGoogleDelegate <NSObject>
 
