@@ -316,6 +316,9 @@ static JREngage* singleton = nil;
                                                            code:JRAuthenticationNativeAuthError
                                                        userInfo:@{@"result": result_, @"error": error_}];
             DLog(@"Native authentication error: %@", nativeAuthError);
+            JRSessionData *sessionData = [JRSessionData jrSessionData];
+            [sessionData setCurrentProvider:[sessionData getProviderNamed:provider]];
+            [sessionData triggerAuthenticationDidFailWithError:nativeAuthError];
             return;
         }
         
