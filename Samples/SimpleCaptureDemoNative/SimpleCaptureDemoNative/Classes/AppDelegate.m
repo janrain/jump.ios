@@ -42,9 +42,7 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
-#import <Fabric/Fabric.h>
-#import <TwitterKit/TwitterKit.h>
-
+#import <TwitterKit/TWTRKit.h>
 
 
 @interface MyCaptureDelegate : NSObject <JRCaptureDelegate>
@@ -96,11 +94,8 @@ AppDelegate *appDelegate = nil;
 {
     appDelegate = self;
 
-    //Setup Twitter TwitterKit/Fabric
-    // http://docs.fabric.io/ios/twitter/twitterkit-setup.html
+    //Setup Twitter TwitterKit
     [[Twitter sharedInstance] startWithConsumerKey:@"UPDATE" consumerSecret:@"UPDATE"];
-
-    [Fabric with:@[[Twitter class]]];
 
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     [FBSDKLoginManager renewSystemCredentials:^(ACAccountCredentialRenewResult result, NSError *error) {}];
@@ -144,25 +139,17 @@ AppDelegate *appDelegate = nil;
     return YES;
 }
 
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation
-{
-    NSLog(@"openURL %@", url);
-    if ([self.openIDAppAuthAuthorizationFlow resumeAuthorizationFlowWithURL:url ]) {
-        self.openIDAppAuthAuthorizationFlow = nil;
-        return YES;
-    }else if(url.scheme != nil && [url.scheme hasPrefix:@"fb"] && [url.host isEqualToString:@"authorize"]){
-        return [[FBSDKApplicationDelegate sharedInstance] application:application
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+    if(url.scheme != nil && [url.scheme hasPrefix:@"twitter"]) {
+        return [[Twitter sharedInstance] application:app openURL:url options:options];
+    } else if(url.scheme != nil && [url.scheme hasPrefix:@"fb"] && [url.host isEqualToString:@"authorize"]){
+        return [[FBSDKApplicationDelegate sharedInstance] application:app
                                                               openURL:url
-                                                    sourceApplication:sourceApplication
-                                                           annotation:annotation];
-    }else if(url.scheme != nil && [url.scheme hasPrefix:@"com.googleusercontent.apps"]){
-        return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
+                                                    options:options];
+    } else if(url.scheme != nil && [url.scheme hasPrefix:@"com.googleusercontent.apps"]){
+        return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
     }else{
-        return [self application:application
-                         openURL:url
-                         options:@{}];
+        return NO;
     }
 }
 
@@ -206,10 +193,14 @@ AppDelegate *appDelegate = nil;
 {
     // See assets folder in Resources project group for janrain-config-default.plist
     // Copy to janrain-config.plist and change it to your details
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"assets/janrain-config" ofType:@"plist"];
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"janrain-config" ofType:@"plist"];
     if (!plistPath)
     {
-        plistPath = [[NSBundle mainBundle] pathForResource:@"assets/janrain-config-default" ofType:@"plist"];
+        plistPath = [[NSBundle mainBundle] pathForResource:@"janrain-config-default" ofType:@"plist"];
+    }
+    if (!plistPath)
+    {
+        plistPath = [[NSBundle mainBundle] pathForResource:@"assets/janrain-config" ofType:@"plist"];
     }
     NSDictionary *cfgPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     NSString *configKeyName = [cfgPlist objectForKey:@"default-config"];

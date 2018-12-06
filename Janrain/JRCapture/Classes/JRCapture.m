@@ -58,6 +58,17 @@ NSString* const JRDownloadFlowResult = @"JRDownloadFlowResult";
 
 @implementation JRCapture
 
+
+static id ObjectOrNull(id object)
+{
+    if (object)
+    {
+        return object;
+    } else {
+        return [NSNull null];
+    }
+}
+
 + (void)setCaptureConfig:(JRCaptureConfig *)config
 {
     [JRCaptureData setCaptureConfig:config];
@@ -728,10 +739,10 @@ captureRegistrationFormName:(NSString *)captureRegistrationFormName
 {
     if (!refreshSecret) return nil;
     NSString *stringToSign = [NSString stringWithFormat:@"refresh_access_token\n%@\n%@\n", dateString, accessToken];
-
-    const char *cKey  = [refreshSecret cStringUsingEncoding:NSASCIIStringEncoding];
-    const char *cData = [stringToSign cStringUsingEncoding:NSASCIIStringEncoding];
-
+    
+    const char *cKey  = [refreshSecret cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *cData = [stringToSign cStringUsingEncoding:NSUTF8StringEncoding];
+    
     unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];
 
     CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
@@ -850,7 +861,7 @@ captureRegistrationFormName:(NSString *)captureRegistrationFormName
     };
 
     NSString *entityUrl = [NSString stringWithFormat:@"%@/entity", [JRCaptureData sharedCaptureData].captureBaseUrl];
-    [JRConnectionManager jsonRequestToUrl:entityUrl params:@{@"access_token" : accessToken} completionHandler:handler];
+    [JRConnectionManager jsonRequestToUrl:entityUrl params:@{@"access_token" : ObjectOrNull(accessToken)} completionHandler:handler];
 }
 
 + (void)updateProfileForUser:(JRCaptureUser *)user delegate:(id <JRCaptureDelegate>)delegate
@@ -869,12 +880,13 @@ captureRegistrationFormName:(NSString *)captureRegistrationFormName
     NSMutableDictionary *params = [user toFormFieldsForForm:editProfileForm withFlow:data.captureFlow];
 
     [params addEntriesFromDictionary:@{
-            @"client_id" : data.clientId,
-            @"access_token" : data.accessToken,
-            @"locale" : data.captureLocale,
-            @"form" : editProfileForm,
-            @"flow" : data.captureFlowName,
+        @"client_id" : ObjectOrNull(data.clientId),
+        @"access_token" : ObjectOrNull(data.accessToken),
+        @"locale" : ObjectOrNull(data.captureLocale),
+        @"form" : ObjectOrNull(editProfileForm),
+        @"flow" : ObjectOrNull(data.captureFlowName),
     }];
+   
 
     if ([data downloadedFlowVersion]) {
         [params setObject:[data downloadedFlowVersion] forKey:@"flow_version"];
@@ -908,11 +920,11 @@ captureRegistrationFormName:(NSString *)captureRegistrationFormName
     NSMutableDictionary *params = [user toFormFieldsForForm:formName withFlow:data.captureFlow];
     
     [params addEntriesFromDictionary:@{
-                                       @"client_id" : data.clientId,
-                                       @"access_token" : data.accessToken,
-                                       @"locale" : data.captureLocale,
-                                       @"form" : formName,
-                                       @"flow" : data.captureFlowName,
+                                       @"client_id" : ObjectOrNull(data.clientId),
+                                       @"access_token" : ObjectOrNull(data.accessToken),
+                                       @"locale" : ObjectOrNull(data.captureLocale),
+                                       @"form" : ObjectOrNull(formName),
+                                       @"flow" : ObjectOrNull(data.captureFlowName),
                                        }];
     
     if ([data downloadedFlowVersion]) {
@@ -958,11 +970,11 @@ captureRegistrationFormName:(NSString *)captureRegistrationFormName
     }
     
     [fieldData addEntriesFromDictionary:@{
-                                       @"client_id" : data.clientId,
-                                       @"access_token" : data.accessToken,
-                                       @"locale" : data.captureLocale,
-                                       @"form" : formName,
-                                       @"flow" : data.captureFlowName,
+                                       @"client_id" : ObjectOrNull(data.clientId),
+                                       @"access_token" : ObjectOrNull(data.accessToken),
+                                       @"locale" : ObjectOrNull(data.captureLocale),
+                                       @"form" : ObjectOrNull(formName),
+                                       @"flow" : ObjectOrNull(data.captureFlowName),
                                        }];
     
     if ([data downloadedFlowVersion]) {

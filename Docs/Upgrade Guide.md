@@ -10,11 +10,29 @@ A less desirable but more reliable and more general upgrade strategy:
 2. Remove generated Capture user model project groups
 3. Follow the process described JUMP Integration Guide
 
+### Upgrading from v5.0.4 (ONLY) to v5.1.1 or greater
+
+iOS 8.x support has been deprecated. All code has been updated to support iOS 9.x and newer.
+
+*NOTE:* Due to the large amount of code modifications required to address iOS 9.x deprecations it is important to test any integrations thoroughly.
+
+Tested with the following supporting libraries/frameworks:
+
+* OpenID AppAuth iOS 0.90.0 (both sample apps)
+* TwitterKit 3.2.1 (Native Sample App only)
+* Google SignIn 4.1.0 (Native Sample App only) - Note as of 11/17/17 there were missing framework files in the Google download zip file.  Use the missing framework files (GoogleAppUtilities.framework and GoogleSymbolUtilities.framework) from the 4.0.1 SDK download.
+* Facebook 4.28.0
+
+The demo applications have been heavily refactored to support the latest Janrain "standard" flow and "user" schema.  The registration and profile pages have been updated to match the form configurations in the standard flow.  These pages now demonstrate how to use date pickers, scroll/spinner selectors, and switches for boolean fields.
+
+If you are using CocoaPods, the CocoaPods `Janrain.podspec` file will now include a set of reference 'Generated' classes in order to resolve dependency warnings and issues.  Developers that are using CocoaPods will have to manually remove the classes imported into the `Pods/Development Pods/Janrain/JRCapture/Generated` folder (in the XCode Project files folder view) and replace them with the Generated class files for their schema as described in the `Xcode Project Setup Guide` (found in the same folder as this document).  Please see the section titled: `Generating the Capture User Model`.
+
+
 ### Upgrading from v5.0.0 (ONLY) to v5.0.1 or greater
 
 Ensure your Janrain libraries includes a reference to the Janrain/JREngage/Classes/JROpenIDAppAuthGoogleDelegate.h file
 
-####Update your application's AppDelegate.h####
+#### Update your application's AppDelegate.h
 REMOVE the following to your AppDelegate.h file (see the Sample Application code for additional context):
 `@protocol OIDAuthorizationFlowSession;`
 AND REMOVE
@@ -31,7 +49,7 @@ ADD the following import:
 ADD the JROpenIDAppAuthGoogleDelegate Protocol:
 `@interface AppDelegate : UIResponder <UIApplicationDelegate, JROpenIDAppAuthGoogleDelegate>`
 
-####Update your application's AppDelegate.m####
+#### Update your application's AppDelegate.m
 
 Synthesize the variables:
 `@synthesize googlePlusClientId;` and
@@ -108,7 +126,7 @@ The sample applications provided as part of the Janrain Mobile Libraries reposit
 
 Once you have added the OpenID AppAuth libraries to your project or workspace the following settings will need to be added/updated in your application if you are planning on using Google as a web-based identity provider in your mobile application.  NOTE: These steps are not necessary if you are using Google Native authentication using the Google iOS SDK.
 
-####Create an iOS Google OAuth Client####
+#### Create an iOS Google OAuth Client
 
 Visit https://console.developers.google.com/apis/credentials?project=_ and find the project that correlates to the Google Web OAuth client that is being used with the *same* Engage application being used by the Janrain Mobile Libraries. Then tap "Create credentials" and select "OAuth client ID".  Follow the instructions to configure the consent screen (just the Product Name is needed).
 
@@ -116,7 +134,7 @@ Then, complete the OAuth client creation by selecting "iOS" as the Application t
 
 Copy the client ID to the clipboard or a location for future use.
 
-####Update Janrain Library configuration####
+#### Update Janrain Library configuration
 Update your application's configuration (i.e. https://github.com/janrain/jump.ios/blob/master/Samples/SimpleCaptureDemo/assets/janrain-config-default.plist ) by adding the following values:
 
 `<key>googlePlusRedirectUri</key>
@@ -135,7 +153,7 @@ config.captureFlowName = captureFlowName;
 config.googlePlusClientId = googlePlusClientId;
 config.googlePlusRedirectUri = googlePlusRedirectUri;`
 
-####Update your applications info.plist####
+#### Update your applications info.plist
 Open your application's' `Info.plist` and fully expand "URL types" (a.k.a. "CFBundleURLTypes") and replace `com.googleusercontent.apps.YOUR_CLIENT_ID` with the reverse DNS notation form of your client id (not including the `:/oauthredirect` path component).
 
 Example:
@@ -152,14 +170,14 @@ Example:
 </array>
 `
 
-####Update your application's AppDelegate.h####
+#### Update your application's AppDelegate.h
 
 ADD the following import:
 `#import "JROpenIDAppAuthGoogleDelegate.h"`
 ADD the JROpenIDAppAuthGoogleDelegate Protocol:
 `@interface AppDelegate : UIResponder <UIApplicationDelegate, JROpenIDAppAuthGoogleDelegate>`
 
-####Update your application's AppDelegate.m####
+#### Update your application's AppDelegate.m
 
 Synthesize the variables:
 `@synthesize googlePlusClientId;` and
@@ -193,13 +211,13 @@ ADD/UPDATE the `(void)parseConfigNamed:(NSString *)cfgKeyName fromConfigPlist:(N
     if ([cfg objectForKey:@"googlePlusRedirectUri"])
         self.googlePlusRedirectUri = [cfg objectForKey:@"googlePlusRedirectUri"];
 
-####New optional configuration items####
+#### New optional configuration items
 
 1. `config.engageAppUrl` If this value is set when intializing the Mobile Libraries the libraries will attempt to use the url provided for all Social Login (Engage) communications.  This setting should only be used when advised to do so by a Janrain technical resource.
 
 2. `config.downloadFlowUrl` If this value is set when intializing the Mobile Libraries the libraries will attempt to use the url provided for all download the Registration flow configuration file.  This setting should only be used when advised to do so by a Janrain technical resource.
 
-####Update Misconfiguration Errors####
+#### Update Misconfiguration Errors
 
 *Error*:
 `Undefined symbols for architecture x86_64:

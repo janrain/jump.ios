@@ -42,7 +42,7 @@
     for (NSString *keyValueString in keyValueStrings) {
         NSArray *keyValuePair = [keyValueString componentsSeparatedByString:@"="];
         NSString *key = keyValuePair[0];
-        NSString *value = [keyValuePair[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *value = [keyValuePair[1] stringByRemovingPercentEncoding];
         [params setObject:value forKey:key];
     }
 

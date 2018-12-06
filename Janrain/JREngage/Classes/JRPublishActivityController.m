@@ -41,6 +41,7 @@
 #import "JRUserInterfaceMaestro.h"
 #import "JRUserLandingController.h"
 #import "JRCompatibilityUtils.h"
+#import "UIAlertController+JRAlertController.h"
 
 #define JRR_OUTER_STROKE_COLOR    [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
 #define JRR_INNER_STROKE_COLOR    JANRAIN_BLUE
@@ -482,12 +483,6 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
         [self showViewIsLoading:NO];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    DLog(@"");
-    [self.sessionData triggerPublishingDidTimeOutConfiguration];
-}
-
 #define CONFIGURATION_TIMEOUT 32.0
 
 /* If the user calls the library before the session data object is done initializing -
@@ -528,13 +523,14 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
 
         NSString *message = NSLocalizedString(@"There are no available providers. Either there is a problem connecting or no providers "
                 "have been configured. Please try again later.",nil);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Available Providers" message:message
-                                                        delegate:self
-                                               cancelButtonTitle:
-                                               NSLocalizedString(@"OK",nil)
-                                               otherButtonTitles:nil];
-
-        [alert show];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            DLog(@"");
+            [self.sessionData triggerPublishingDidTimeOutConfiguration];
+        }];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"No Available Providers" message:message alertActions:okAction, nil];
+        [self presentViewController:alertController animated:YES completion:nil];
         return;
     }
 
@@ -1796,12 +1792,11 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Shared",nil)
-                                                         message:NSLocalizedString(@"There was an error while sharing this activity.",nil)
-                                                        delegate:nil
-                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                               otherButtonTitles:nil];
-        [alert show];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Shared",nil) message:NSLocalizedString(@"There was an error while sharing this activity.",nil) alertActions:okAction, nil];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
         [self showViewIsLoading:NO];
         self.weAreCurrentlyPostingSomething = NO;
         self.weHaveJustAuthenticated = NO;
@@ -1813,12 +1808,11 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
     DLog(@"");
 
     NSString *message = [NSString stringWithFormat:NSLocalizedString(@"You have successfully shared this activity.",nil)];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Shared",nil)
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:NSLocalizedString(@"OK",nil)
-                                          otherButtonTitles:nil];
-    [alert show];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Shared",nil) message:message alertActions:okAction, nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 
     [self.alreadyShared addObject:provider];
 
@@ -1900,36 +1894,34 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
     self.weAreCurrentlyPostingSomething = NO;
     self.weHaveJustAuthenticated = NO;
 
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
-                                                     message:errorMessage
-                                                    delegate:nil
-                                           cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                           otherButtonTitles:nil];
-    [alert show];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                          message:errorMessage
+                                                     alertActions:okAction, nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError *)error
 {
-    UIAlertView *alert;
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+    
+    UIAlertController *alertController;
     switch (result)
     {
         case MFMailComposeResultSent:
             [self.sessionData triggerEmailSharingDidComplete];
-            alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil)
-                                                message:NSLocalizedString(@"You have successfully sent this email.", nil)
-                                               delegate:nil
-                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                      otherButtonTitles:nil];
-            [alert show];
+            alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Success", nil)
+                                                                  message:NSLocalizedString(@"You have successfully sent this email.", nil)
+                                                             alertActions:okAction, nil];
+            [self presentViewController:alertController animated:YES completion:nil];
             break;
         case MFMailComposeResultFailed:
-            alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
-                                                message:NSLocalizedString(@"Could not send email.  Please try again later.", nil)
-                                               delegate:nil
-                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                      otherButtonTitles:nil];
-            [alert show];
+            alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                  message:NSLocalizedString(@"Could not send email.  Please try again later.", nil)
+                                                             alertActions:okAction, nil];
+            [self presentViewController:alertController animated:YES completion:nil];
             break;
         default:
             break;
@@ -1944,25 +1936,23 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller
                  didFinishWithResult:(MessageComposeResult)result
 {
-    UIAlertView *alert;
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+    
+    UIAlertController *alertController;
     switch (result)
     {
         case MessageComposeResultSent:
             [self.sessionData triggerSmsSharingDidComplete];
-            alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil)
-                                                message:NSLocalizedString(@"You have successfully sent this text.", nil)
-                                               delegate:nil
-                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                      otherButtonTitles:nil];
-            [alert show];
+            alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Success", nil)
+                                                                  message:NSLocalizedString(@"You have successfully sent this text.", nil)
+                                                             alertActions:okAction, nil];
+            [self presentViewController:alertController animated:YES completion:nil];
             break;
         case MessageComposeResultFailed:
-            alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
-                                                message:NSLocalizedString(@"Could not send text.  Please try again later.", nil)
-                                               delegate:nil
-                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                      otherButtonTitles:nil];
-            [alert show];
+            alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                  message:NSLocalizedString(@"Could not send text.  Please try again later.", nil)
+                                                             alertActions:okAction, nil];
+            [self presentViewController:alertController animated:YES completion:nil];
             break;
         default:
             break;

@@ -37,7 +37,7 @@
 #import "JRInfoBar.h"
 
 @interface JRUserLandingController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
-        UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate, JRUserInterfaceDelegate>
+        UITableViewDataSource, UITextFieldDelegate, JRUserInterfaceDelegate>
 {
     JRSessionData *sessionData;
     NSDictionary *customInterface;

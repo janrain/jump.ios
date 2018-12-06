@@ -44,7 +44,7 @@ extern NSString *const kGoogleClientID;
 - (IBAction)refreshButtonPressed:(id)sender;
 - (IBAction)signInButtonPressed:(id)sender;
 - (IBAction)facebookAuthButtonPressed:(id)sender;
-- (IBAction)googleplusAuthButtonPressed:(id)sender;
+- (IBAction)googleSignInAuthButtonPressed:(id)sender;
 - (IBAction)twitterAuthButtonPressed:(id)sender;
 - (IBAction)tradAuthButtonPressed:(id)sender;
 - (IBAction)signOutButtonPressed:(id)sender;

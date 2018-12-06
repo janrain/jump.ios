@@ -43,6 +43,7 @@
 #import "JRCompatibilityUtils.h"
 #import "JROpenIDAppAuth.h"
 #import "JROpenIDAppAuthProvider.h"
+#import "UIAlertController+JRAlertController.h"
 
 
 @interface UITableViewCellProviders : UITableViewCell
@@ -262,11 +263,6 @@
     [super viewDidAppear:animated];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [sessionData triggerAuthenticationDidTimeOutConfiguration];
-}
-
 - (void)checkSessionDataAndProviders:(NSTimer *)theTimer
 {
     DLog(@"");
@@ -303,11 +299,14 @@
 
         NSString *message = NSLocalizedString(@"There are no available providers. Either there is a problem connecting or no providers "
                 "have been configured. Please try again later.", nil);
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Available Providers",nil) message:message
-                                                        delegate:self
-                                               cancelButtonTitle:NSLocalizedString(@"OK",nil)
-                                               otherButtonTitles:nil];
-        [alert show];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [sessionData triggerAuthenticationDidTimeOutConfiguration];
+        }];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"No Available Providers",nil) message:message alertActions:okAction, nil];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
         return;
     }
 

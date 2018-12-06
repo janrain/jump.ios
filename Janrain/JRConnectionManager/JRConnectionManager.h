@@ -59,7 +59,7 @@
 
 
 
-@interface JRConnectionManager : NSObject <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface JRConnectionManager : NSObject
 {
 }
 

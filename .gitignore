@@ -1,13 +1,16 @@
-Samples/SimpleCaptureDemoNative/TwitterKit.framework
-Samples/SimpleCaptureDemoNative/TwitterKit.framework/*
-Samples/SimpleCaptureDemoNative/TwitterCore.framework/*
 Samples/SimpleCaptureDemoNative/Fabric.framework/*
 Samples/SimpleCaptureDemoNative/GoogleSignIn.bundle/*
 Samples/SimpleCaptureDemoNative/GoogleSignIn.framework/*
+Samples/SimpleCaptureDemoNative/TwitterKitResources.bundle
+Samples/SimpleCaptureDemoNative/TwitterShareExtensionUIResources.bundle
+Samples/SimpleCaptureDemo/SimpleCaptureDemo.xcworkspace/xcuserdata/*
 Samples/SimpleCaptureDemoNative/SimpleCaptureDemoNative.xcworkspace/xcuserdata/*
 Samples/SimpleCaptureDemoNative/SimpleCaptureDemoNative/GoogleService-Info.plist
 Samples/SimpleCaptureDemoNative/SimpleCaptureDemoNative/SimpleCaptureDemoNative-Info-WITH_KEYS.plist
 Samples/SimpleCaptureDemoNative/SimpleCaptureDemoNative/SimpleCaptureDemoNative-Info-EMPTY.plist
+Samples/SimpleCaptureDemoNative/SimpleCaptureDemoNative/assets/janrain-config.plist
+Samples/SimpleCaptureDemoNative/SimpleCaptureDemoNative/assets/janrain-config-default_EMPTY.plist
+
 
 *.DS_Store
 # Xcode

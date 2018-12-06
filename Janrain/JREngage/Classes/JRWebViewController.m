@@ -39,6 +39,7 @@
 #import "JRUserInterfaceMaestro.h"
 #import "JRJsonUtils.h"
 #import "JRCompatibilityUtils.h"
+#import "UIAlertController+JRAlertController.h"
 
 
 @interface JRWebViewController ()
@@ -346,13 +347,13 @@
         if (!payloadDict)
         {
             NSError *error = [JREngageError errorWithMessage:errorMessage andCode:JRAuthenticationFailedError];
-
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Log In Failed", nil)
-                                                             message:NSLocalizedString(@"An error occurred while attempting to sign you in.  Please try again.", nil)
-                                                            delegate:nil
-                                                   cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                   otherButtonTitles:nil];
-            [alert show];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleCancel handler:nil];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Log In Failed", nil)
+                                                                                     message:NSLocalizedString(@"An error occurred while attempting to sign you in.  Please try again.", nil)
+                                                                                alertActions:okAction, nil];
+            [self presentViewController:alertController animated:YES completion:nil];
 
             userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
             [sessionData triggerAuthenticationDidFailWithError:error];
@@ -375,17 +376,17 @@
                     alertMessage = NSLocalizedString(@"There was a problem authenticating with this provider. Please try again.", nil);
 
                 DLog(@"Discovery failed for the OpenID you entered: %@", alertMessage);
-
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Input", nil)
-                                                                 message:alertMessage
-                                                                delegate:nil
-                                                       cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                       otherButtonTitles:nil];
-
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    [[self navigationController] popViewControllerAnimated:YES];
+                }];
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Invalid Input", nil)
+                                                                                         message:alertMessage
+                                                                                    alertActions:okAction, nil];
+                
                 userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
-                [[self navigationController] popViewControllerAnimated:YES];
-
-                [alert show];
+                [self presentViewController:alertController animated:YES completion:nil];
             }
             else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"]
                     isEqualToString:@"The URL you entered does not appear to be an OpenID"])
@@ -398,17 +399,16 @@
                     alertMessage = NSLocalizedString(@"There was a problem authenticating with this provider. Please try again.", nil);
 
                 DLog(@"The URL you entered does not appear to be an OpenID: %@", alertMessage);
-
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Input", nil)
-                                                                 message:alertMessage
-                                                                delegate:nil
-                                                       cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                       otherButtonTitles:nil];
-
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    [[self navigationController] popViewControllerAnimated:YES];
+                }];
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Invalid Input", nil)
+                                                                                         message:alertMessage
+                                                                                    alertActions:okAction, nil];
+                [self presentViewController:alertController animated:YES completion:nil];
                 userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
-                [[self navigationController] popViewControllerAnimated:YES];
-
-                [alert show];
             }
             else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"]
                     isEqualToString:@"Please enter your OpenID"])
@@ -421,12 +421,13 @@
             else
             {
                 NSError *error = [JREngageError errorWithMessage:errorMessage andCode:JRAuthenticationFailedError];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Log In Failed", nil)
-                                                                 message:NSLocalizedString(@"An error occurred while attempting to sign you in.  Please try again.", nil)
-                                                                delegate:nil
-                                                       cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                       otherButtonTitles:nil];
-                [alert show];
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleCancel handler:nil];
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Log In Failed", nil)
+                                                                                         message:NSLocalizedString(@"An error occurred while attempting to sign you in.  Please try again.", nil)
+                                                                                    alertActions:okAction, nil];
+                [self presentViewController:alertController animated:YES completion:nil];
 
                 userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
                 [sessionData triggerAuthenticationDidFailWithError:error];
@@ -518,15 +519,16 @@
         NSError *newError = [JREngageError errorWithMessage:[NSString stringWithFormat:@"Authentication failed: %@",
                                                                                        [error localizedDescription]]
                                                     andCode:JRAuthenticationFailedError];
-
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Log In Failed", nil)
-                                                         message:NSLocalizedString(@"An error occurred while attempting to sign you in.  Please try again.", nil)
-                                                        delegate:nil
-                                               cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                               otherButtonTitles:nil];
-        [alert show];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleCancel handler:nil];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Log In Failed", nil)
+                                                                                 message:NSLocalizedString(@"An error occurred while attempting to sign you in.  Please try again.", nil)
+                                                                            alertActions:okAction, nil];
+        [self presentViewController:alertController animated:YES completion:nil];
 
         userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
+        
         [sessionData triggerAuthenticationDidFailWithError:newError];
     }
 }

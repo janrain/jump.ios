@@ -77,7 +77,12 @@
                                                                                   @"token" : token,
                                                                                   @"provider" : self.provider
                                                                                   }];
+    
     NSString *url = [[JRSessionData jrSessionData].baseUrl stringByAppendingString:@"/signin/oauth_token"];
+    
+    if(self.provider.length > 0){
+        url = [url stringByAppendingString:[NSString stringWithFormat: @"?providername=%@", self.provider]];
+    }
     
     if (tokenSecret) {
         if([self.provider  isEqual: @"twitter"]){
@@ -87,7 +92,6 @@
             [params setObject:tokenSecret forKey:@"wechat.openid"];
         }
     }
-    
     
     void (^responseHandler)(id, NSError *) = ^(id result, NSError *error)
     {

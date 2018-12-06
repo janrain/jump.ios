@@ -456,11 +456,11 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
 }
 @property  CustomAnimationController *animationController;
 @property  UINavigationController *myNavigationController;
-@property  UIPopoverController *myPopoverController;
+@property UIPopoverPresentationController *myPopoverPresentationController;
 @property  UIViewController *vcToPresent;
 @end
 
-@interface JRUserInterfaceMaestro ()
+@interface JRUserInterfaceMaestro () <UIPopoverPresentationControllerDelegate>
 @property JRModalViewController *jrModalViewController;
 @property UINavigationController *customModalNavigationController;
 @property UINavigationController *applicationNavigationController;
@@ -470,7 +470,6 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
 @end
 
 @implementation JRModalViewController
-@synthesize myPopoverController;
 @synthesize myNavigationController;
 @synthesize animationController;
 @synthesize vcToPresent;
@@ -501,24 +500,6 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
     shouldUnloadSubviews = NO;
 
     [self setView:view];
-}
-
-- (void)presentPopoverNavigationControllerFromBarButton:(UIBarButtonItem*)barButtonItem
-                                            inDirection:(UIPopoverArrowDirection)direction
-{
-    DLog (@"");
-    [myPopoverController presentPopoverFromBarButtonItem:barButtonItem
-                                permittedArrowDirections:direction animated:YES];
-}
-
-- (void)presentPopoverNavigationControllerFromCGRect:(CGRect)rect inDirection:(UIPopoverArrowDirection)direction
-{
-    DLog (@"");
-    if (![self.view superview]) [getWindow() addSubview:self.view];
-    CGRect popoverPresentationFrame = [self.view convertRect:rect toView:getWindow()];
-
-    [myPopoverController presentPopoverFromRect:popoverPresentationFrame inView:self.view
-                       permittedArrowDirections:direction animated:YES];
 }
 
 - (void)presentModalNavigationController
@@ -581,9 +562,9 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
 {
     DLog (@"");
 
-    if (myPopoverController)
+    if (self.myPopoverPresentationController)
     {
-        [myPopoverController dismissPopoverAnimated:YES];
+        [self.myNavigationController dismissViewControllerAnimated:YES completion:nil];
     }
     else
     {
@@ -733,7 +714,8 @@ static JRUserInterfaceMaestro *singleton = nil;
     if ([customInterface objectForKey:kJRCustomModalNavigationController])
         self.customModalNavigationController = [customInterface objectForKey:kJRCustomModalNavigationController];
 
-    usingAppNav = NO, usingCustomNav = NO;
+    usingAppNav = NO;
+    usingCustomNav = NO;
     if (IS_IPAD) {
         if ([customInterface objectForKey:kJRPopoverPresentationBarButtonItem])
             padPopoverMode = PadPopoverFromBar;
@@ -771,7 +753,8 @@ static JRUserInterfaceMaestro *singleton = nil;
 - (void)tearDownDialogPresentation
 {
     padPopoverMode = PadPopoverModeNone;
-    usingAppNav = NO, usingCustomNav = NO;
+    usingAppNav = NO;
+    usingCustomNav = NO;
 
     viewControllerToPopTo = nil;
     self.applicationNavigationController = nil;
@@ -883,20 +866,13 @@ static JRUserInterfaceMaestro *singleton = nil;
     return navigationController;
 }
 
-- (UIPopoverController *)createPopoverControllerWithNavigationController:(UINavigationController *)navigationController
-{
-    // Allocating UIPopoverController with class string allocation so that it compiles for iPhone OS versions < v3.2
-    UIPopoverController *popoverController =
-        [[NSClassFromString(@"UIPopoverController") alloc]
-            initWithContentViewController:navigationController];
-
-    if (popoverController)
-    {
-        popoverController.popoverContentSize = MODAL_SIZE_FRAME.size;
-        popoverController.delegate = self;
-    }
-
-    return popoverController;
+-(UIPopoverPresentationController *)createPopoverPresentationControllerWithController:(UINavigationController *) navigationController {
+    navigationController.modalPresentationStyle = UIModalPresentationPopover;
+    UIPopoverPresentationController *popoverPC = [navigationController popoverPresentationController];
+    popoverPC.delegate = self;
+    popoverPC.barButtonItem = [self.customInterface objectForKey:kJRPopoverPresentationBarButtonItem];
+    
+    return popoverPC;
 }
 
 - (BOOL)shouldOpenToUserLandingPage
@@ -958,23 +934,28 @@ static JRUserInterfaceMaestro *singleton = nil;
                 [self createDefaultNavigationControllerWithRootViewController:rootViewController];
     }
 
-    if (padPopoverMode)
-        jrModalViewController.myPopoverController =
-            [self createPopoverControllerWithNavigationController:jrModalViewController.myNavigationController];
+    if (padPopoverMode) {
+        self.jrModalViewController.myPopoverPresentationController = [self createPopoverPresentationControllerWithController:jrModalViewController.myNavigationController];
+        
+    }
 
     /* If the code is used by a universal application and is compiled for versions of iOS that don't
        support UIPopoverControllers (i.e., iOS < v3.2), this will return nil;  If it does, fall back
        to modal dialog presentation. This might never happen, because the above code wouldn't be called
        on the iPhone anyway... */
-    if (!jrModalViewController.myPopoverController)
+    if (!jrModalViewController.myPopoverPresentationController)
         padPopoverMode = PadPopoverModeNone;
 
+    
+    // Deprecated - value not used
+    /*
     UIPopoverArrowDirection arrowDirection = UIPopoverArrowDirectionAny;
     if ([customInterface objectForKey:kJRPopoverPresentationArrowDirection])
     {
         arrowDirection = (UIPopoverArrowDirection)
                 [[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue];
     }
+    */
 
     if ([self shouldOpenToUserLandingPage])
     {
@@ -984,16 +965,15 @@ static JRUserInterfaceMaestro *singleton = nil;
 
     if (padPopoverMode == PadPopoverFromBar)
     {
-        UIBarButtonItem *item = [customInterface objectForKey:kJRPopoverPresentationBarButtonItem];
-        [jrModalViewController presentPopoverNavigationControllerFromBarButton:item inDirection:arrowDirection];
-    }
-    else if (padPopoverMode == PadPopoverFromFrame)
-    {
-        CGRect rect = [[customInterface objectForKey:kJRPopoverPresentationFrameValue] CGRectValue];
-        [jrModalViewController presentPopoverNavigationControllerFromCGRect:rect inDirection:arrowDirection];
+        [[self.customInterface objectForKey:kJRApplicationNavigationController]
+         presentViewController:self.jrModalViewController.myNavigationController animated:YES completion:nil];
     }
     else
+    {
         [jrModalViewController presentModalNavigationController];
+    }
+    
+    
 }
 
 - (void)loadApplicationNavigationControllerWithViewController:(UIViewController *)rootViewController
@@ -1118,15 +1098,6 @@ static JRUserInterfaceMaestro *singleton = nil;
     }
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
-{
-    DLog (@"");
-    if ([sessionData socialSharing])
-        [sessionData triggerPublishingDidCancel];
-    else
-        [sessionData triggerAuthenticationDidCancel];
-}
-
 - (void)authenticationRestarted
 {
     DLog(@"");
@@ -1185,5 +1156,15 @@ static JRUserInterfaceMaestro *singleton = nil;
         [sessionData.currentProvider forceReauth];
     [[viewController navigationController] pushViewController:[JRUserInterfaceMaestro sharedMaestro].myWebViewController
                                                      animated:YES];
+}
+
+#pragma mark - UIPopoverPresentationControllerDelegate
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
+    DLog (@"");
+    
+    if ([sessionData socialSharing])
+        [sessionData triggerPublishingDidCancel];
+    else
+        [sessionData triggerAuthenticationDidCancel];
 }
 @end

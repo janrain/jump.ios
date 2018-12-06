@@ -50,7 +50,7 @@ typedef enum
 @interface JRPublishActivityController : UIViewController
         <JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate, UITabBarDelegate,
         UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,
-        JRPreviewLabelDelegate, UIAlertViewDelegate, UITextViewDelegate>
+        JRPreviewLabelDelegate, UITextViewDelegate>
 @property (assign) BOOL hidesCancelButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

@@ -85,7 +85,7 @@ typedef enum
 - (void)hideLoading;
 @end
 
-@interface JRUserInterfaceMaestro : NSObject <UIPopoverControllerDelegate>
+@interface JRUserInterfaceMaestro : NSObject
 
 + (JRUserInterfaceMaestro *)jrUserInterfaceMaestroWithSessionData:(JRSessionData *)newSessionData;
 + (JRUserInterfaceMaestro *)sharedMaestro;
@@ -107,7 +107,7 @@ typedef enum
 
 - (void)pushWebViewFromViewController:(UIViewController *)viewController;
 
-@property(copy) NSMutableDictionary *customInterfaceDefaults;
+@property(nonatomic, strong) NSMutableDictionary *customInterfaceDefaults;
 @property(readonly) JRProvidersController *myProvidersController;
 @property(readonly) JRUserLandingController *myUserLandingController;
 @property(readonly) JRWebViewController *myWebViewController;

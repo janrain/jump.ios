@@ -10,9 +10,9 @@ SimpleCaptureDemoNative demos:
 - Sign-in session management
 - Registration (traditional and social)
 - Native Authentication using Facebook, Google+, and Twitter
-- REQUIRED: Facebook SDK version 4.20.2
-- REQUIRED: Google Signin SDK 2.3.2
-- REQUIRED: Fabric.io with TwitterKit 2.8.0
+- REQUIRED: Facebook SDK version 4.31.1
+- REQUIRED: Google Signin SDK 4.1.2
+- REQUIRED: TwitterKit 3.3.0
 
 To run this demo with your own configuration:
 
@@ -32,7 +32,7 @@ This sample application has been updated to use the Xcode Workspace library impl
 
 Once you have added the OpenID AppAuth libraries to your project or workspace the following settings will need to be added/updated in your application if you are planning on using Google as a web-based identity provider in your mobile application.  NOTE: These steps are not necessary if you are using Google Native authentication using the Google iOS SDK.
 
-####Create an iOS Google OAuth Client####
+#### Create an iOS Google OAuth Client
 
 Visit https://console.developers.google.com/apis/credentials?project=_ and find the project that correlates to the Google Web OAuth client that is being used with the *same* Engage application being used by the Janrain Mobile Libraries. Then tap "Create credentials" and select "OAuth client ID".  Follow the instructions to configure the consent screen (just the Product Name is needed).
 
@@ -40,7 +40,7 @@ Then, complete the OAuth client creation by selecting "iOS" as the Application t
 
 Copy the client ID to the clipboard or a location for future use.
 
-####Update Janrain Library configuration####
+#### Update Janrain Library configuration
 Update your application's configuration (i.e. https://github.com/janrain/jump.ios/blob/master/Samples/SimpleCaptureDemo/assets/janrain-config-default.plist ) by adding/updating the following values:
 
 `<key>googlePlusRedirectUri</key>
@@ -48,7 +48,7 @@ Update your application's configuration (i.e. https://github.com/janrain/jump.io
 <key>googlePlusClientId</key>
 <string>YOUR_CLIENT_ID.apps.googleusercontent.com</string>`
 
-####Update your applications info.plist####
+#### Update your applications info.plist
 Open your application's' `Info.plist` and fully expand "URL types" (a.k.a. "CFBundleURLTypes") and replace `com.googleusercontent.apps.YOUR_CLIENT_ID` with the reverse DNS notation form of your client id (not including the `:/oauthredirect` path component).
 
 Example:
@@ -77,7 +77,7 @@ There is now an optional janrain-config.plist setting that allows you to define 
     </array>
 
 6. You will need to follow these steps for each native provider:
-  * ###Facebook
+  * #### Facebook
     1. Download the Facebook SDK for iOS from this link:  https://developers.facebook.com/docs/ios
     2. Follow *ALL* of the steps on this page *EXCEPT* for Step 2 (Create a Facebook App): https://developers.facebook.com/docs/ios/getting-started/  In order for the Janrain Social Login Server to validate the provided Facebook oAuth token, the token must be provisioned from the same Facebook application that is configured for the Janrain Social Login application.  In most cases, the developer would simply add an iOS App Settings configuration to the existing Facebook App.
     3.  Use this page as a starting point for implementing native Facebook Login:  https://developers.facebook.com/docs/facebook-login/ios/v2.4
@@ -85,50 +85,36 @@ There is now an optional janrain-config.plist setting that allows you to define 
     5.  Make sure that the Permissions requested in the `logInWithReadPermissions` method include the required permissions.  In most cases these permissions need to mirror the Facebook app permissions configuration of the Engage Social Login application that is configured in the Janrain Social Login Dashboard.
     6.  Refer to the `RootViewControoler.m` file for an example of how this was done with the SimpleCaptureDemoNative application.
 
-  * ###Google+
-    1. Download the Google+ 2.3.2 SDK from this link: https://developers.google.com/identity/sign-in/ios/sdk/google_signin_sdk_2_3_2.zip.  Refer to this link for additional information: https://developers.google.com/+/mobile/ios/getting-started
-    2. Follow *ALL* of the steps on this page that involve the XCode project configuration and Google+ app configuration: https://developers.google.com/+/mobile/ios/getting-started  In order for the Janrain Social Login Server to validate the provided Google+ oAuth token, the token must be provisioned from the same Google+ application that is configured for the Janrain Social Login application.  In most cases, the developer would simply add an iOS App Client ID configuration to the existing Google+ App.
-    3. Update the "SimpleCaptureDemoNative-Info.plist" file to use your Google+ App ID in the recommended places.  This should match the Google+ App ID that was used for configuring the Google+ provider in the Social Login Dashboard.
-    4. Update the Google+ "GoogleService-Info.plist" file with your Google+ App Client ID and reversed Client ID.
+  * #### Google Sign-in
+    1. Download the Google Sign-In SDK 4.1.0 SDK from this link: https://developers.google.com/identity/sign-in/ios/sdk/google_signin_sdk_4_1_0.zip.  Refer to this link for additional information: https://developers.google.com/identity/sign-in/ios/sdk/
+    2. Follow *ALL* of the steps on this page that involve the XCode project configuration and Google app configuration: https://developers.google.com/identity/sign-in/ios/sdk/  In order for the Janrain Social Login Server to validate the provided Google Sign-In oAuth token, the token must be provisioned from the same Google application that is configured for the Janrain Social Login application.  In most cases, the developer would simply add an iOS App Client ID configuration to the existing Google App.
+    3. Update the "SimpleCaptureDemoNative-Info.plist" file to use your Google App ID in the recommended places.  This should match the Google App ID that was used for configuring the Google provider in the Social Login Dashboard.
+    4. Update the Google "GoogleService-Info.plist" file with your Google App Client ID and reversed Client ID.
     5. Update the "Classes/RootViewController.m" file to use your Google Client ID (Line 56).
     6. In the case of the SimpleCaptureDemoNative application the integration steps were implemented in the `RootViewControoler` files with minimal changes from the examples provided by Google at this link: https://developers.google.com/identity/sign-in/ios/sign-in
-    7. Make sure that the Scopes requested by the `GPPSignIn` singleton includes the required scopes.  In most cases these scopes need to mirror the Google+ app permissions configuration of the Engage Social Login application that is configured in the Janrain Social Login Dashboard.
+    7. Make sure that the Scopes requested by the `GPPSignIn` singleton includes the required scopes.  In most cases these scopes need to mirror the Google app permissions configuration of the Engage Social Login application that is configured in the Janrain Social Login Dashboard.
     8. Refer to the `RootViewControoler.m` file for an example of how this was done with the SimpleCaptureDemoNative application.
 
-  * ###Twitter
-    1. Download the Fabric SDK from this link: https://get.fabric.io/ and include TwitterKit
-    2. Configure your Twitter App: http://docs.fabric.io/ios/twitter/configure-twitter-app.html  In order for the Janrain Social Login Server to validate the provided Twitter oAuth token, the token must be provisioned from the same Twitter application that is configured for the Janrain Social Login application.  In most cases, the developer would simply add an iOS App Client ID configuration to the existing Twitter App.
-    3. Update the "SimpleCaptureDemoNative-Info.plist" file to use your Fabric API Key and Twitter OAuth Client ID and Client Secret in the recommended places.  This should match the Twitter App ID that was used for configuring the Twitter provider in the Social Login Dashboard.
+  * #### Twitter
+    1. Download the Twitterkit SDK from this link: https://dev.twitter.com/twitterkit/ios/installation
+    2. Configure your Twitter App: https://apps.twitter.com/ In order for the Janrain Social Login Server to validate the provided Twitter oAuth token, the token must be provisioned from the same Twitter application that is configured for the Janrain Social Login application.  In most cases, the developer would simply add an iOS App Client ID configuration to the existing Twitter App.
+    3. Update the "SimpleCaptureDemoNative-Info.plist" file to use your Twitter API Key (or consumer key) in the recommended place.  This should match the Twitter App ID that was used for configuring the Twitter provider in the Social Login Dashboard.
     4. Edit the "Classes/AppDelegate.m" file to update the application with your Twitter Consumer Key and Consumer Secret. (Line 99)
-    5. In the case of the SimpleCaptureDemoNative application the integration steps were implemented in the `RootViewControoler` files with minimal changes from the examples provided by Twitter at this link: http://docs.fabric.io/ios/twitter/authentication.html
+    5. In the case of the SimpleCaptureDemoNative application the integration steps were implemented in the `RootViewControoler` files with minimal changes from the examples provided by Twitter at this link: https://dev.twitter.com/twitterkit/ios/log-in-with-twitter
     6. NOTE: In most default cases Twitter will not return an email address for an end user. This may cause account merging or linking issues if your Registration user experience relies heavily on merged social profiles.  This use-case is typically addressed by forcing Twitter account holders to use the "Account Linking" functionality of the SDK.  Customer's may choose to work with Twitter to get their application white-listed so it will attempt to return an email address from a user profile.  However, email addresses are not "required" for Twitter accounts, subsequently there is still no guarantee that an email address will be returned.
 
 7. Refer to the `RootViewControoler.m` file for an example of how this was done with the SimpleCaptureDemoNative application.
 
-8. Make sure to add/update the following method in your AppDelegate.m file accordingly (You may not need to handle all the url scheme variations):
+8. Make sure to add/update the following method in your AppDelegate.m file accordingly (You may not need to handle the url scheme variations):
 
-    - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
-             annotation:(id)annotation
-    {
-        NSLog(@"openURL %@", url);
-        if ([self.openIDAppAuthAuthorizationFlow resumeAuthorizationFlowWithURL:url ]) {
-            self.openIDAppAuthAuthorizationFlow = nil;
-            return YES;
-        }else if(url.scheme != nil && [url.scheme hasPrefix:@"fb"] && [url.host isEqualToString:@"authorize"]){
-            return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                                  openURL:url
-                                                        sourceApplication:sourceApplication
-                                                               annotation:annotation];
-        }else if(url.scheme != nil && [url.scheme hasPrefix:@"com.googleusercontent.apps"]){
-            return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
-        }else{
-            return [self application:application
-                             openURL:url
-                             options:@{}];
+    -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+        if(url.scheme != nil && [url.scheme hasPrefix:@"twitter"]) {
+            return [[Twitter sharedInstance] application:app openURL:url options:options];
         }
+        return NO;
     }
 
-###Typical Misconfiguration Errors###
+### Typical Misconfiguration Errors
 
 *Error*:
 `Undefined symbols for architecture x86_64:
@@ -211,13 +197,6 @@ Make sure you are reading the data from your app's info.plist in your AppDelegat
         self.googlePlusClientId = [cfg objectForKey:@"googlePlusClientId"];
 if ([cfg objectForKey:@"googlePlusRedirectUri"])
     self.googlePlusRedirectUri = [cfg objectForKey:@"googlePlusRedirectUri"];`
-
-*Error*:
-
-`SimpleCaptureDemoNative[32777:6293011] [Fabric] failed to download settings Error Domain=FABNetworkError Code=-5 "(null)" UserInfo={status_code=403, type=2, request_id=059be0e232c69cc584b006052cfdc9bb, content_type=application/json; charset=utf-8}
-2016-12-28 10:47:10.994`
-
-*Resolution*:  Follow the steps above on how to configure the Fabric TwitterKit SDK.
 
 *Error*:
 

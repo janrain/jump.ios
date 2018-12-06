@@ -41,19 +41,14 @@
 #import "JRCaptureData.h"
 #import "JRCapture.h"
 #import "JRCaptureFlow.h"
-
-typedef enum
-{
-    JRIncorrectUserOrPasswordAlertViewTag,
-    JRForgotPasswordAlertViewTag
-} JRUIViewTag;
+#import "UIAlertController+JRAlertController.h"
 
 @interface JREngageWrapper (JREngageWrapper_InternalMethods)
 - (void)authenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response
                             andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider;
 @end
 
-@interface JRTraditionalSignInViewController () <JRCaptureInternalDelegate, UIAlertViewDelegate,  JRCaptureDelegate>
+@interface JRTraditionalSignInViewController () <JRCaptureInternalDelegate,  JRCaptureDelegate>
 @property  NSString *titleString;
 @property  UIView   *titleView;
 @property JRTraditionalSignInType signInType;
@@ -279,13 +274,14 @@ typedef enum
             NSLocalizedString(@"Username", nil);
     NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Incorrect %@ or Password", nil), type];
     //NSString *const message = [result objectForKey:@"error"];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                        message:nil // MOB-73
-                                                       delegate:self
-                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", nil)
-                                              otherButtonTitles:NSLocalizedString(@"Forgot Password", nil), nil];
-    alertView.tag = JRIncorrectUserOrPasswordAlertViewTag;
-    [alertView show];
+    
+    UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *forgotPasswordAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Forgot Password", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self showForgottenPasswordAlert];
+    }];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil alertActions:dismissAction, forgotPasswordAction, nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 
     [delegate hideLoading];
     // XXX hack to skirt the side effects thrown off by the client's sign-in APIs:
@@ -294,57 +290,60 @@ typedef enum
 
 - (void)showForgottenPasswordAlert
 {
-    UIAlertView *alertView = [[UIAlertView alloc]
-            initWithTitle:NSLocalizedString(@"Confirm Your Email Address", nil)
-                  message:NSLocalizedString(@"We'll send you a link to create a new password.", nil)
-                 delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-        otherButtonTitles:NSLocalizedString(@"Send", nil), nil];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    alertView.tag = JRForgotPasswordAlertViewTag;
-
-    UITableViewCell *nameCell = [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    NSString *nameOrEmail = ((UITextField *) [nameCell viewWithTag:NAME_TEXTFIELD_TAG]).text;
-
-    if (nameOrEmail && ![nameOrEmail isEqualToString:@""]) {
-        [alertView textFieldAtIndex:0].text = nameOrEmail;
-    } else {
-        JRCaptureData *data = [JRCaptureData sharedCaptureData];
-        NSString *fieldName = [data getForgottenPasswordFieldName];
-        NSDictionary *field = [[data.captureFlow objectForKey:@"fields"] objectForKey:fieldName];
-        NSString *placeholder = [field objectForKey:@"placeholder"];
-        if (!placeholder)
-        {
-            placeholder = (self.signInType == JRTraditionalSignInEmailPassword) ?
-                    NSLocalizedString(@"Enter your email", nil) :
-                    NSLocalizedString(@"Enter your username", nil);
-        }
-
-        [alertView textFieldAtIndex:0].placeholder = placeholder;
-    }
-
-    [alertView show];
+    __weak __block UIAlertController *alertController;
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+    
+    UIAlertAction *sendAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UITextField *nameOrEmailtextField = alertController.textFields.firstObject;
+        [delegate showLoading];
+        [JRCapture startForgottenPasswordRecoveryForField:nameOrEmailtextField.text
+                                                 delegate:self];
+        
+    }];
+    
+    alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Confirm Your Email Address", nil)
+                                                                             message:NSLocalizedString(@"We'll send you a link to create a new password.", nil)
+                                                                        alertActions:cancelAction, sendAction, nil];
+    [self addTexFieldConfigurationForAlertController:alertController];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == JRIncorrectUserOrPasswordAlertViewTag && buttonIndex == 1) {
-        [self showForgottenPasswordAlert];
-    } else if (alertView.tag == JRForgotPasswordAlertViewTag && buttonIndex == 1) {
-        [delegate showLoading];
-        [JRCapture startForgottenPasswordRecoveryForField:[alertView textFieldAtIndex:0].text
-                                                 delegate:self];
-    }
+- (void)addTexFieldConfigurationForAlertController:(UIAlertController *)alertController {
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        UITableViewCell *nameCell = [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        NSString *nameOrEmail = ((UITextField *) [nameCell viewWithTag:NAME_TEXTFIELD_TAG]).text;
+        
+        if (nameOrEmail && ![nameOrEmail isEqualToString:@""]) {
+            textField.text = nameOrEmail;
+        } else {
+            JRCaptureData *data = [JRCaptureData sharedCaptureData];
+            NSString *fieldName = [data getForgottenPasswordFieldName];
+            NSDictionary *field = [[data.captureFlow objectForKey:@"fields"] objectForKey:fieldName];
+            NSString *placeholder = [field objectForKey:@"placeholder"];
+            if (!placeholder)
+            {
+                placeholder = (self.signInType == JRTraditionalSignInEmailPassword) ?
+                NSLocalizedString(@"Enter your email", nil) :
+                NSLocalizedString(@"Enter your username", nil);
+            }
+            textField.placeholder = placeholder;
+        }
+    }];
+
 }
 
 - (void)forgottenPasswordRecoveryDidSucceed
 {
     [delegate hideLoading];
-    UIAlertView *alertView = [[UIAlertView alloc]
-            initWithTitle:NSLocalizedString(@"Reset Password email Sent", nil)
-                  message:@""
-                 delegate:nil
-        cancelButtonTitle:NSLocalizedString(@"Dismiss", nil)
-        otherButtonTitles:nil];
-    [alertView show];
+    
+    UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleDefault handler:nil];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Reset Password email Sent", nil)
+                                                                            message:@""
+                                                                        alertActions:dismissAction, nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)forgottenPasswordRecoveryDidFailWithError:(NSError *)error
@@ -371,12 +370,19 @@ typedef enum
     {
         errorMessage = [error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     }
+    
+    if ([errorMessage length] > 0)
+    {
+        DLog(@"Forgot Password Recovery error: %@", errorMessage);
+    }
 
     // read the localized error string from JRCaptureError.
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could Not Reset Password", nil)
-                                                        message:errorMessage delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", nil) otherButtonTitles:nil];
-    [alertView show];
+    UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleDefault handler:nil];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Could Not Reset Password", nil)
+                                                                             message:@""
+                                                                        alertActions:dismissAction, nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

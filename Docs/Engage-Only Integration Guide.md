@@ -198,7 +198,7 @@ For guidance implementing your web-server's authentication token URL, see `Authe
 ### UI Customization
 
 To customize the look and feel of the sign-in experience, please see the
-[Custom Interface Guide for iOS](http://developers.janrain.com/documentation/mobile-libraries/advanced-topics/custom-ui-for-ios/).
+[Custom Interface Guide for iOS](https://github.com/janrain/jump.ios/blob/master/Docs/Custom_UI_for_iOS.md).
 
 ## Social Sharing
 

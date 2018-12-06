@@ -290,6 +290,10 @@ static JREngage* singleton = nil;
         url = [[JRSessionData jrSessionData].baseUrl stringByAppendingString:@"/signin/oauth_token"];
     }
     
+    if(provider.length > 0){
+        url = [url stringByAppendingString:[NSString stringWithFormat: @"?providername=%@", provider]];
+    }
+    
     if (tokenSecret) {
         if([provider  isEqual: @"twitter"]){
             [params setObject:tokenSecret forKey:@"token_secret"];

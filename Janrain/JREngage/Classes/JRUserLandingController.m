@@ -39,6 +39,7 @@
 #import "JRWebViewController.h"
 #import "debug_log.h"
 #import "JRCompatibilityUtils.h"
+#import "UIAlertController+JRAlertController.h"
 
 #define frame_w(a) a.frame.size.width
 #define frame_h(a) a.frame.size.height
@@ -176,10 +177,6 @@
 {
     DLog(@"");
     [super viewWillDisappear:animated];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
 }
 
 #pragma mark Table view methods
@@ -637,12 +634,10 @@ replacementString:(NSString *)string
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Input", nil)
-                          message:NSLocalizedString(@"The input you have entered is not valid. Please try again.", nil)
-                         delegate:self
-                cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                otherButtonTitles:nil];
-            [alert show];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Invalid Input", nil) message:NSLocalizedString(@"The input you have entered is not valid. Please try again.", nil) alertActions:okAction, nil];
+            [self presentViewController:alertController animated:YES completion:nil];
             return;
         }
     }

@@ -342,13 +342,15 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 			NSArray *keys = [[NSArray alloc] initWithObjects: (NSString *) CFBridgingRelease(kSecClass),
                         kSecAttrService, 
                         kSecAttrLabel, 
-                        kSecAttrAccount, 
+                        kSecAttrAccount,
+                        kSecAttrAccessible,
                         nil];
 			
 			NSArray *objects = [[NSArray alloc] initWithObjects: (NSString *) CFBridgingRelease(kSecClassGenericPassword),
                            serviceName,
                            serviceName,
                            username,
+                           kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
                            nil];
 			
 			NSDictionary *query = [[NSDictionary alloc] initWithObjects: objects forKeys: keys];			
@@ -366,6 +368,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
                       kSecAttrLabel, 
                       kSecAttrAccount, 
                       kSecValueData,
+                      kSecAttrAccessible,
                       nil];
 		
 		NSArray *objects = [[NSArray alloc] initWithObjects: (NSString *) CFBridgingRelease(kSecClassGenericPassword),
@@ -373,6 +376,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
                          serviceName,
                          username,
                          [password dataUsingEncoding: NSUTF8StringEncoding],
+                         kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
                          nil];
 		
 		NSDictionary *query = [[NSDictionary alloc] initWithObjects: objects forKeys: keys];

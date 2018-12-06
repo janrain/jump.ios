@@ -41,13 +41,7 @@
 @implementation NSString (JRString_UrlEscaping)
 - (NSString *)stringByAddingUrlPercentEscapes
 {
-
-    NSString *encodedString = (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-            NULL,
-            (CFStringRef) self,
-            NULL,
-            (CFStringRef) @"!*'();:@&=+$,/?%#[]",
-            kCFStringEncodingUTF8));
+    NSString *encodedString = [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 
     return encodedString;
 }
@@ -75,9 +69,8 @@
 @property(readonly) id              tag;
 @property(readonly) BOOL            returnFullResponse;
 @property(readonly) id <JRConnectionManagerDelegate> delegate;
+@property           NSURLSessionTask *task;
 
-// NOTE that NSURLConnection objects are not copyable
-@property           NSURLConnection* connection;
 @end
 
 @implementation ConnectionData
@@ -92,15 +85,16 @@
     objectCopy->_tag        = self.tag;
     objectCopy->_returnFullResponse = self.returnFullResponse;
     objectCopy->_delegate   = self.delegate;
-    objectCopy->_connection = self.connection;
+    objectCopy->_task         = self.task;
     return objectCopy;
 }
 
 - (id)initWithRequest:(NSURLRequest *)request
           forDelegate:(id <JRConnectionManagerDelegate>)delegate
-       withConnection:(NSURLConnection*)connection
+       withTask:(NSURLSessionTask *)task
    returnFullResponse:(BOOL)returnFullResponse
               withTag:(id)userdata
+
 {
     //DLog(@"");
 
@@ -112,7 +106,7 @@
         _response = nil;
         _fullResponse = nil;
         self->_delegate = delegate;
-        self->_connection = connection;
+        self->_task = task;
     }
     return self;
 }
@@ -162,11 +156,11 @@ static JRConnectionManager *singleton = nil;
     return [[connectionManager connectionBuffers] count];
 }
 
-+ (ConnectionData*) getConnectionDataFromConnection:(NSURLConnection *)connection
++ (ConnectionData*) getConnectionDataFromTask:(NSURLSessionTask *)task
 {
     for (ConnectionData* connectionData in [JRConnectionManager getConnectionBuffers])
     {
-        if (connectionData.connection == connection)
+        if (connectionData.task == task)
         {
             return connectionData;
         }
@@ -188,28 +182,50 @@ static JRConnectionManager *singleton = nil;
     NSString *body = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
     DLog(@"request to '%@' with body: '%@'", [[request URL] absoluteString], body);
 
-    JRConnectionManager *connectionManager = [JRConnectionManager getJRConnectionManager];
+    __block JRConnectionManager *connectionManager = [JRConnectionManager getJRConnectionManager];
     NSMutableArray *connectionBuffers = [connectionManager connectionBuffers];
 
     if (![NSURLConnection canHandleRequest:request])
         return NO;
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
-    NSURLConnection *connection = [[NSURLConnection alloc]
-            initWithRequest:request delegate:connectionManager startImmediately:NO];
+    __block NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+        ConnectionData *connectionData = [JRConnectionManager getConnectionDataFromTask:task];
+        if (connectionData.returnFullResponse) {
+            connectionData.fullResponse = response;
+        }
+        connectionData.response = [NSMutableData dataWithData:data];
+        
+            if (error) {
+                [connectionManager taskDidFailWithError:error forConnectionData:connectionData];
+                
+                
+            } else {
+                [connectionManager taskDidFinishLoadingWith:connectionData];
+            }
+            
+        
+        });
+        dispatch_semaphore_signal(semaphore);
+        
+    }];
 
-    if (!connection)
+    if (!task)
         return NO;
 
     ConnectionData *connectionData = [[ConnectionData alloc] initWithRequest:request
                                                                  forDelegate:delegate
-                                                              withConnection:connection
+                                                              withTask:task
                                                           returnFullResponse:returnFullResponse
                                                                      withTag:userData];
     [connectionBuffers addObject:connectionData];
-    [connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-    [connection start];
+    [task resume];
     [connectionManager startActivity];
 
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    
     return YES;
 }
 
@@ -228,7 +244,7 @@ static JRConnectionManager *singleton = nil;
     {
         if (connectionData.delegate == delegate)
         {
-            [connectionData.connection cancel];
+            [connectionData.task cancel];
 
             if ([connectionData tag])
             {
@@ -257,35 +273,33 @@ static JRConnectionManager *singleton = nil;
     NSString *p = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
     NSString *url = [request.URL absoluteString];
     DLog(@"URL: \"%@\" params: \"%@\"", url, p);
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *r, NSData *d, NSError *e)
-                           {
-                               if (e)
-                               {
-                                   ALog(@"Error fetching JSON: %@", e);
-                                   handler(nil, e);
-                               }
-                               else
-                               {
-                                   NSString *bodyString =
-                                           [[NSString alloc] initWithData:d
-                                                                  encoding:NSUTF8StringEncoding];
-                                   NSError *err = nil;
-                                   id parsedJson = [NSJSONSerialization JSONObjectWithData:d
-                                                                                   options:(NSJSONReadingOptions) 0
-                                                                                     error:&err];
-                                   ALog(@"Fetched: \"%@\"", bodyString);
-                                   if (err)
-                                   {
-                                       ALog(@"Parse err: \"%@\"", err);
-                                       handler(nil, e);
-                                   }
-                                   else
-                                   {
-                                       handler(parsedJson, nil);
-                                   }
-                               }
-                           }];
+    
+    NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable e) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (e) {
+                ALog(@"Error fetching JSON: %@", e);
+                handler(nil, e);
+            }else {
+                NSString *bodyString =
+                [[NSString alloc] initWithData:data
+                                      encoding:NSUTF8StringEncoding];
+                NSError *err = nil;
+                id parsedJson = [NSJSONSerialization JSONObjectWithData:data
+                                                                options:(NSJSONReadingOptions) 0
+                                                                  error:&err];
+                ALog(@"Fetched: \"%@\"", bodyString);
+                if (err) {
+                    ALog(@"Parse err: \"%@\"", err);
+                    handler(nil, e);
+                }
+                else{
+                    handler(parsedJson, nil);
+                }
+            }
+        });
+    }];
+    
+    [task resume];
 }
 
 
@@ -321,7 +335,7 @@ static JRConnectionManager *singleton = nil;
     ConnectionData *connectionData;
     while ((connectionData = [enumerator nextObject]))
     {
-        [connectionData.connection cancel];
+        [connectionData.task cancel];
         
         if ([connectionData tag])
         {
@@ -333,44 +347,7 @@ static JRConnectionManager *singleton = nil;
     [self stopActivity];
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    DLog(@"data=%@", [data jrBase64Encode]);
-    for (ConnectionData *connectionData in [self connectionBuffers])
-    {
-        if (connectionData.connection == connection)
-        {
-            [[connectionData response] appendData:data];
-            break;
-        }
-    }
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    DLog(@"response=%@", response.URL.absoluteString);
-    for (ConnectionData *connectionData in [self connectionBuffers])
-    {
-        if (connectionData.connection == connection)
-        {
-            [connectionData setResponse:[[NSMutableData alloc] init]];
-            if ([connectionData returnFullResponse])
-                connectionData.fullResponse = response;
-            break;
-        }
-    }
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    DLog(@"connection=%@", connection.description);
-    
-    ConnectionData *connectionData  = [JRConnectionManager getConnectionDataFromConnection:connection];
-    if (!connectionData || (connectionData.connection != connection))
-    {
-        return;
-    }
-    
+-(void)taskDidFinishLoadingWith:(ConnectionData *)connectionData {
     NSURLRequest*   request         = [connectionData request];
     NSURLResponse*  fullResponse    = [connectionData fullResponse];
     NSData*         responseBody    = [connectionData response];
@@ -378,11 +355,11 @@ static JRConnectionManager *singleton = nil;
     NSStringEncoding encoding       = NSUTF8StringEncoding;
     
     id <JRConnectionManagerDelegate> delegate = [connectionData delegate];
-
+    
     if (![connectionData fullResponse])
     {
         NSString *payload = [[NSString alloc] initWithData:responseBody encoding:encoding];
-
+        
         if ([delegate respondsToSelector:@selector(connectionDidFinishLoadingWithPayload:request:andTag:)])
             [delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userData];
     }
@@ -393,70 +370,27 @@ static JRConnectionManager *singleton = nil;
             [delegate connectionDidFinishLoadingWithFullResponse:fullResponse unencodedPayload:responseBody
                                                          request:request andTag:userData];
     }
-
+    
     JRConnectionManager *connectionManager = [JRConnectionManager getJRConnectionManager];
     [[connectionManager connectionBuffers] removeObject:connectionData];
-
+    
     [self stopActivity];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
+-(void)taskDidFailWithError:(NSError *)error forConnectionData:(ConnectionData *)connectionData {
     DLog(@"error message: %@", [error localizedDescription]);
-
-    ConnectionData* connectionData  = [JRConnectionManager getConnectionDataFromConnection:connection];
+    
     NSURLRequest*   request         = [connectionData request];
     id              userData        = [connectionData tag];
     
     id <JRConnectionManagerDelegate> delegate = [connectionData delegate];
-
+    
     if ([delegate respondsToSelector:@selector(connectionDidFailWithError:request:andTag:)])
         [delegate connectionDidFailWithError:error request:request andTag:userData];
-
+    
     JRConnectionManager *connectionManager = [JRConnectionManager getJRConnectionManager];
     [[connectionManager connectionBuffers] removeObject:connectionData];
-
+    
     [self stopActivity];
 }
-
-- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request
-            redirectResponse:(NSURLResponse *)redirectResponse
-{
-    NSString *body = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
-    DLog(@"request to '%@' with body: '%@'", [[request URL] absoluteString], body);
-    ConnectionData* connectionData  = [JRConnectionManager getConnectionDataFromConnection:connection];
-
-    if ([connectionData returnFullResponse])
-        connectionData.fullResponse = redirectResponse;
-
-    return request;
-}
-
-- (void)              connection:(NSURLConnection *)connection
-didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-    DLog(@"");
-}
-
-- (void)               connection:(NSURLConnection *)connection
-didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-    DLog(@"");
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse *)cachedResponse
-{
-    /*DLog(@"");*/
-    return cachedResponse;
-}
-
-- (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
-        totalBytesWritten:(NSInteger)totalBytesWritten
-totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
-{
-    //DLog(@"bytesWritten: %d, totalBytesWritten: %d, totalBytesExpected: %d", bytesWritten, totalBytesWritten,
-    //    totalBytesExpectedToWrite);
-}
-
 @end

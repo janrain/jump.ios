@@ -33,8 +33,10 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
+#import "JRSessionData.h"
+
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
-        UITableViewDataSource, UIAlertViewDelegate, JRUserInterfaceDelegate, JRExternalDialogControllerDelegate>
+        UITableViewDataSource, JRUserInterfaceDelegate, JRExternalDialogControllerDelegate>
 @property(assign) BOOL hidesCancelButton;
 @property(nonatomic) IBOutlet UIView *myBackgroundView;
 @property(nonatomic) IBOutlet UITableView *myTableView;
