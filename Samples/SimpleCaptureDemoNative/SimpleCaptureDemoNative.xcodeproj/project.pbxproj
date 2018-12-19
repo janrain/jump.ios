@@ -2115,11 +2115,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
-					"/Users/pbaker/Documents/FacebookSDK/**",
+					"/Users/UPDATE/Documents/FacebookSDK/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
 					"$(PROJECT_DIR)",
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0,
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_0_1,
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0,
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_0_1,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleCaptureDemoNative/SimpleCaptureDemoNative-Prefix.pch";
@@ -2131,17 +2131,17 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
-					/Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers,
-					"/Users/pbaker/Documents/FacebookSDK/**",
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers,
-					/Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers,
+					/Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers,
+					"/Users/UPDATE/Documents/FacebookSDK/**",
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers,
+					/Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers,
 				);
 				INFOPLIST_FILE = "SimpleCaptureDemoNative/SimpleCaptureDemoNative-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/pbaker/Documents/FacebookSDK/**",
+					"/Users/UPDATE/Documents/FacebookSDK/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -2155,9 +2155,9 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				PROVISIONING_PROFILE_SPECIFIER = "Mobile Dev";
-				SYSTEM_HEADER_SEARCH_PATHS = "/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
+				SYSTEM_HEADER_SEARCH_PATHS = "/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
+				USER_HEADER_SEARCH_PATHS = "/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
 				VALID_ARCHS = "armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2177,11 +2177,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
-					"/Users/pbaker/Documents/FacebookSDK/**",
+					"/Users/UPDATE/Documents/FacebookSDK/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
 					"$(PROJECT_DIR)",
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0,
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_0_1,
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0,
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_0_1,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleCaptureDemoNative/SimpleCaptureDemoNative-Prefix.pch";
@@ -2193,17 +2193,17 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
-					/Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers,
-					"/Users/pbaker/Documents/FacebookSDK/**",
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers,
-					/Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers,
+					/Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers,
+					"/Users/UPDATE/Documents/FacebookSDK/**",
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers,
+					/Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers,
 				);
 				INFOPLIST_FILE = "SimpleCaptureDemoNative/SimpleCaptureDemoNative-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/pbaker/Documents/FacebookSDK/**",
+					"/Users/UPDATE/Documents/FacebookSDK/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -2218,9 +2218,9 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				PROVISIONING_PROFILE_SPECIFIER = JrAuthenticateDev;
-				SYSTEM_HEADER_SEARCH_PATHS = "/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
+				SYSTEM_HEADER_SEARCH_PATHS = "/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
+				USER_HEADER_SEARCH_PATHS = "/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
 				VALID_ARCHS = "armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2283,11 +2283,11 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
-					"/Users/pbaker/Documents/FacebookSDK/**",
+					"/Users/UPDATE/Documents/FacebookSDK/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
 					"$(PROJECT_DIR)",
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0,
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_0_1,
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0,
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_0_1,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleCaptureDemoNative/SimpleCaptureDemoNative-Prefix.pch";
@@ -2299,17 +2299,17 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
-					/Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers,
-					"/Users/pbaker/Documents/FacebookSDK/**",
-					/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers,
-					/Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers,
+					/Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers,
+					"/Users/UPDATE/Documents/FacebookSDK/**",
+					/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers,
+					/Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers,
 				);
 				INFOPLIST_FILE = "SimpleCaptureDemoNative/SimpleCaptureDemoNative-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/pbaker/Documents/FacebookSDK/**",
+					"/Users/UPDATE/Documents/FacebookSDK/**",
 					"$(PROJECT_DIR)/../../../OpenIDAppAuth/AppAuth-iOS/Source/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
@@ -2323,9 +2323,9 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SYSTEM_HEADER_SEARCH_PATHS = "/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
+				SYSTEM_HEADER_SEARCH_PATHS = "/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "/Users/pbaker/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/pbaker/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
+				USER_HEADER_SEARCH_PATHS = "/Users/UPDATE/Documents/DeveloperNotes/GoogleSDKs/google_signin_sdk_4_4_0/GoogleSignIn.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKCoreKit.framework/Headers /Users/UPDATE/Documents/FacebookSDK/FBSDKLoginKit.framework/Headers";
 				VALID_ARCHS = "armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
