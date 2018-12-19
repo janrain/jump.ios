@@ -296,7 +296,7 @@
     
     UIAlertAction *sendAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         UITextField *nameOrEmailtextField = alertController.textFields.firstObject;
-        [delegate showLoading];
+        [self->delegate showLoading];
         [JRCapture startForgottenPasswordRecoveryForField:nameOrEmailtextField.text
                                                  delegate:self];
         
@@ -312,7 +312,7 @@
 
 - (void)addTexFieldConfigurationForAlertController:(UIAlertController *)alertController {
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        UITableViewCell *nameCell = [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UITableViewCell *nameCell = [self->myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         NSString *nameOrEmail = ((UITextField *) [nameCell viewWithTag:NAME_TEXTFIELD_TAG]).text;
         
         if (nameOrEmail && ![nameOrEmail isEqualToString:@""]) {
@@ -385,8 +385,7 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
+- (BOOL)shouldAutorotate {
     return YES;
 }
 

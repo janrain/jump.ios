@@ -828,6 +828,22 @@ dismissViewController:(UIViewController *)viewController {
     [controller pushViewController:viewController animated:YES];
 }
 
+- (void)didReceiveMemoryWarning {
+    [self setTradAuthButton:nil];
+    [self setDirectFacebookAuthButton:nil];
+    [self setDirectGoogleplusAuthButton:nil];
+    [self setDirectTwitterAuthButton:nil];
+    [self setRefetchButton:nil];
+    [super didReceiveMemoryWarning];
+}
+- (void)dealloc {
+    [self setTradAuthButton:nil];
+    [self setDirectFacebookAuthButton:nil];
+    [self setDirectGoogleplusAuthButton:nil];
+    [self setDirectTwitterAuthButton:nil];
+    [self setRefetchButton:nil];
+}
+/*
 - (void)viewDidUnload {
     [self setTradAuthButton:nil];
     [self setDirectFacebookAuthButton:nil];
@@ -836,6 +852,7 @@ dismissViewController:(UIViewController *)viewController {
     [self setRefetchButton:nil];
     [super viewDidUnload];
 }
+ */
 @end
 
 @implementation MyCaptureDelegate

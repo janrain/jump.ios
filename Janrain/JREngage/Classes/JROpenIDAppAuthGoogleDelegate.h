@@ -35,10 +35,10 @@
 
 @required
 
-@property(nonatomic) NSString *googlePlusClientId;
-@property(nonatomic) NSString *googlePlusRedirectUri;
-@property(nonatomic) NSArray *googlePlusOpenIDScopes;
-@property(retain) id<OIDAuthorizationFlowSession> openIDAppAuthAuthorizationFlow;
+@property(nonatomic) NSString * _Nullable googlePlusClientId;
+@property(nonatomic) NSString * _Nullable googlePlusRedirectUri;
+@property(nonatomic) NSArray * _Nullable googlePlusOpenIDScopes;
+@property(nonatomic, strong, nullable) id<OIDExternalUserAgentSession> openIDAppAuthAuthorizationFlow;
 
 @end
 

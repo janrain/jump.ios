@@ -188,7 +188,7 @@ static JRConnectionManager *singleton = nil;
     if (![NSURLConnection canHandleRequest:request])
         return NO;
     
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    // dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
     __block NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -208,7 +208,7 @@ static JRConnectionManager *singleton = nil;
             
         
         });
-        dispatch_semaphore_signal(semaphore);
+        // dispatch_semaphore_signal(semaphore);
         
     }];
 
@@ -224,7 +224,7 @@ static JRConnectionManager *singleton = nil;
     [task resume];
     [connectionManager startActivity];
 
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    // dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     
     return YES;
 }

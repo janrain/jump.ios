@@ -4,9 +4,10 @@ This guide describes the process of integrating with native iOS authentication s
 
 ## Supported Providers
 
-* TwitterKit 3.2.1 (Native Sample App only)
-* Google SignIn 4.1.0 (Native Sample App only) - Note as of 11/17/17 there were missing framework files in the Google download zip file.  Use the missing framework files (GoogleAppUtilities.framework and GoogleSymbolUtilities.framework) from the 4.0.1 SDK download.
-* Facebook 4.28.0
+* OpenID AppAuth iOS 1.0.0.beta1 (both sample apps)
+* TwitterKit 3.4.0 (Native Sample App only)
+* Google SignIn 4.4.0 (Native Sample App only)
+* Facebook 4.39.0 (Native Sample App only)
 
 ## Native Authentication for Janrain Mobile SDK version 4.0 or newer.
 
@@ -75,10 +76,10 @@ The SDK is not currently able to request the same scopes that are configured in 
 #### Configure the Native Authentication Framework
 
 Follow the Facebook iOS SDK integration instructions. For native Facebook authentication to work via Social Sign-in both Janrain and the Facebook iOS SDK must be configured to use the same Facebook application.
-Make sure that you use the same Facebook app ID as is configured in your application’s dashboard.
+Make sure that you use the same Facebook app ID as is configured in your application's dashboard.
 
 #### Ensure that the Facebook sources are linked
-Add the `-ObjC` flag to the app target’s build settings: https://developer.apple.com/library/mac/qa/qa1490/_index.html
+Add the `-ObjC` flag to the app target's build settings: https://developer.apple.com/library/mac/qa/qa1490/_index.html
 
 #### Handle the Facebook login callback
 
@@ -103,7 +104,7 @@ Start authentication or sign-in as normal. If the Facebook iOS SDK is compiled i
 
 #### Signing Out
 
-Following Facebook’s documentation we’ll use `closeAndClearTokenInformation` to close the in-memory Facebook session.
+Following Facebook's documentation we'll use `closeAndClearTokenInformation` to close the in-memory Facebook session.
 
 In your view controller import the Facebook SDK
 
@@ -121,7 +122,7 @@ the following to the signOutCurrentUser method of the RootViewController.
     }
 
 Note: This does not revoke the applications access to Facebook. So if a user has a Facebook account set up in their iOS
-device’s Settings app it will continue to be used to sign in without asking to be reauthorized.
+device's Settings app it will continue to be used to sign in without asking to be reauthorized.
 
 ### Google+
 
@@ -130,7 +131,7 @@ Follow the Google+ platform getting started guide. For native Google+ authentica
 
 #### Configure the Janrain SDK
 
-If you are using Janrain’s user registration add your iOS Google+ client ID to your JRCaptureConfig instance:
+If you are using Janrain's user registration add your iOS Google+ client ID to your JRCaptureConfig instance:
 
     config.googlePlusClientId = @"YOUR_CLIENT_ID";
 
@@ -161,7 +162,7 @@ Start authentication or sign-in as normal. If the Google+ iOS SDK is compiled in
 
 #### Signing out and disconnecting from the Google+ SDK
 
-Follow the directions in https://developers.google.com/+/mobile/ios/sign-in under “Sign out the user” and “Revoking access tokens and Disconnecting the app”.
+Follow the directions in https://developers.google.com/+/mobile/ios/sign-in under "Sign out the user" and "Revoking access tokens and Disconnecting the app".
 
 ### Twitter
 
@@ -169,19 +170,19 @@ Follow the directions in https://developers.google.com/+/mobile/ios/sign-in unde
 
 Ensure that you have Accounts.framework, Social.framework linked to your target.
 
-If you are using Janrain’s user registration add your Twitter consumer key and consumer secret to your JRCaptureConfig instance:
+If you are using Janrain's user registration add your Twitter consumer key and consumer secret to your JRCaptureConfig instance:
 
-	config.twitterConsumerKey = @"YOUR_CONSUMER_KEY";
+    config.twitterConsumerKey = @"YOUR_CONSUMER_KEY";
     config.twitterConsumerSecret = @"YOUR_CONSUMER_SECRET";
 
 or if you are using social sign-in only, after your call to `+[JREngage setEngageAppId:tokenUrl:andDelegate:]` set your Twitter consumer key and consumer secret:
 
-    [JREngage setTwitterConsumerKey:@”YOUR_CONSUMER_KEY
-                          andSecret:@”YOUR_CONSUMER_SECRET”];
+    [JREngage setTwitterConsumerKey:@"YOUR_CONSUMER_KEY
+                          andSecret:@"YOUR_CONSUMER_SECRET"];
 
 Make sure that your Twitter consumer key and consumer secret match what you have configured in the Engage dashboard.
 
-When a user has not given your application permission to access the Twitter accounts, then the `-[engageSignInDidFailWithError:]` method of your JRCaptureDelegate or the `-[authenticationDidFailWithError:forProvider:]` method of  your `JREngageSigninDelegate` will be called with an error. You can handle the error by checking to see if it’s code is `JRAuthenticationNoAccessToTwitterAccountsError`. For example:
+When a user has not given your application permission to access the Twitter accounts, then the `-[engageSignInDidFailWithError:]` method of your JRCaptureDelegate or the `-[authenticationDidFailWithError:forProvider:]` method of  your `JREngageSigninDelegate` will be called with an error. You can handle the error by checking to see if it's code is `JRAuthenticationNoAccessToTwitterAccountsError`. For example:
 
     #import "JREngageError.h"
     ...
