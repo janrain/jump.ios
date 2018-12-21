@@ -260,7 +260,7 @@ static JREngage* singleton = nil;
             [self authenticationDidCancel];
         } else if ([error.domain isEqualToString:JREngageErrorDomain]
                    && error.code == JRAuthenticationShouldTryWebViewError) {
-            [self->interfaceMaestro startWebAuthWithCustomInterface:customInterfaceOverrides provider:provider];
+            [self.interfaceMaestro startWebAuthWithCustomInterface:customInterfaceOverrides provider:provider];
         } else {
             [self authenticationDidFailWithError:error forProvider:provider];
         }

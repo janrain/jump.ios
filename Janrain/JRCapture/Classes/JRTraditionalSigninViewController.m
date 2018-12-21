@@ -296,7 +296,7 @@
 
     UIAlertAction *sendAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         UITextField *nameOrEmailtextField = alertController.textFields.firstObject;
-        [self->delegate showLoading];
+        [self.delegate showLoading];
         [JRCapture startForgottenPasswordRecoveryForField:nameOrEmailtextField.text
                                                  delegate:self];
 

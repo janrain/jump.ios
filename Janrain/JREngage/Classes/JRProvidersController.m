@@ -512,11 +512,11 @@
     if ([JROpenIDAppAuth canHandleProvider:provider.name])
     {
         [UIView animateWithDuration:0.3 animations:^() {
-            self->myTableView.hidden = YES;
-            [self->myActivitySpinner setHidden:NO];
-            [self->myLoadingLabel setHidden:NO];
-            [self->myActivitySpinner startAnimating];
-            self->myLoadingLabel.text = NSLocalizedString(@"Signing in ...",nil);
+            self.myTableView.hidden = YES;
+            [self.myActivitySpinner setHidden:NO];
+            [self.myLoadingLabel setHidden:NO];
+            [self.myActivitySpinner startAnimating];
+            self.myLoadingLabel.text = NSLocalizedString(@"Signing in ...",nil);
         }];
         
         [sessionData setCurrentProvider:provider];
@@ -532,7 +532,7 @@
                     [self stopActivityIndicator];
                     [self startWebViewAuthOnProvider:provider];
                 } else {
-                    self->myTableView.hidden = NO;
+                    self.myTableView.hidden = NO;
                     [self stopActivityIndicator];
                     [self->sessionData triggerAuthenticationDidFailWithError:e];
                 }

@@ -1226,7 +1226,7 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
                               style:UIAlertActionStyleDestructive
                             handler:^(UIAlertAction *action) {
                                 NSLog(@"Signing Out");
-                                [self logUserOutForProvider:self->selectedProvider.name];
+                                [self logUserOutForProvider:self.selectedProvider.name];
                             }]];
     [alertController addAction:
      [UIAlertAction actionWithTitle:@"Cancel"
