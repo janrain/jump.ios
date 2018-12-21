@@ -78,7 +78,7 @@ static NSString *const kAppAuthExampleAuthStateKey = @"authState";
             
             //populate scopes from janrain configuration plist
             NSArray *openIDScopes;
-            if (self.jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes == nil || [self->jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes count] == 0) {
+            if (self.jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes == nil || [self.jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes count] == 0) {
                 openIDScopes = @[OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail, OIDScopeAddress, OIDScopePhone];
             }else{
                 NSMutableArray *tempScopes = [[NSMutableArray alloc] init];
