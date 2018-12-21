@@ -78,11 +78,11 @@ static NSString *const kAppAuthExampleAuthStateKey = @"authState";
             
             //populate scopes from janrain configuration plist
             NSArray *openIDScopes;
-            if (jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes == nil || [jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes count] == 0) {
+            if (self.jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes == nil || [self.jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes count] == 0) {
                 openIDScopes = @[OIDScopeOpenID, OIDScopeProfile, OIDScopeEmail, OIDScopeAddress, OIDScopePhone];
             }else{
                 NSMutableArray *tempScopes = [[NSMutableArray alloc] init];
-                for (NSString* scope in jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes){
+                for (NSString* scope in self.jrOpenIDAppAuthGoogleDelegate.googlePlusOpenIDScopes){
                     if([scope isEqualToString:@"OIDScopeOpenID"]) {
                         [tempScopes addObject:OIDScopeOpenID];
                     } else if([scope isEqualToString:@"OIDScopeProfile"]) {
@@ -103,7 +103,7 @@ static NSString *const kAppAuthExampleAuthStateKey = @"authState";
             // builds authentication request
             OIDAuthorizationRequest *request =
             [[OIDAuthorizationRequest alloc] initWithConfiguration:configuration
-                                                          clientId:jrOpenIDAppAuthGoogleDelegate.googlePlusClientId
+                                                          clientId:self.jrOpenIDAppAuthGoogleDelegate.googlePlusClientId
                                                             scopes:openIDScopes
                                                        redirectURL:redirectURI
                                                       responseType:OIDResponseTypeCode
@@ -116,7 +116,7 @@ static NSString *const kAppAuthExampleAuthStateKey = @"authState";
             while (current.presentedViewController) {
                 current = current.presentedViewController;
             }
-            jrOpenIDAppAuthGoogleDelegate.openIDAppAuthAuthorizationFlow =
+            self.jrOpenIDAppAuthGoogleDelegate.openIDAppAuthAuthorizationFlow =
             [OIDAuthState authStateByPresentingAuthorizationRequest:request
                                            presentingViewController:current
                                                            callback:^(OIDAuthState *_Nullable authState,

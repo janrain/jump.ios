@@ -260,7 +260,7 @@ static JREngage* singleton = nil;
             [self authenticationDidCancel];
         } else if ([error.domain isEqualToString:JREngageErrorDomain]
                    && error.code == JRAuthenticationShouldTryWebViewError) {
-            [interfaceMaestro startWebAuthWithCustomInterface:customInterfaceOverrides provider:provider];
+            [self.interfaceMaestro startWebAuthWithCustomInterface:customInterfaceOverrides provider:provider];
         } else {
             [self authenticationDidFailWithError:error forProvider:provider];
         }
@@ -316,6 +316,9 @@ static JREngage* singleton = nil;
                                                            code:JRAuthenticationNativeAuthError
                                                        userInfo:@{@"result": result_, @"error": error_}];
             DLog(@"Native authentication error: %@", nativeAuthError);
+            JRSessionData *sessionData = [JRSessionData jrSessionData];
+            [sessionData setCurrentProvider:[sessionData getProviderNamed:provider]];
+            [sessionData triggerAuthenticationDidFailWithError:nativeAuthError];
             return;
         }
         

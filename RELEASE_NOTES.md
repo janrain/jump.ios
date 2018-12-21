@@ -1,3 +1,15 @@
+v5.1.2
+
+* Merged PR: Removed Semaphores to make requests asynchronous (https://github.com/janrain/jump.ios/pull/57/files)
+* Merged PR: Return error to delegates when authInfo request for native token returns error (https://github.com/janrain/jump.ios/pull/51)
+* Updated deprecated code in the `JRUserInterfaceMaestro.m` specifically related to orientation and view resizing.
+* Tested with the following supporting libraries/frameworks:
+
+  * OpenID AppAuth iOS 1.0.0.beta1 (both sample apps)
+  * TwitterKit 3.4.0 (Native Sample App only)
+  * Google SignIn 4.4.0 (Native Sample App only)
+  * Facebook 4.39.0 (Native Sample App only)
+
 v5.1.1
 
 * Added support for future changes to the Social Login platform

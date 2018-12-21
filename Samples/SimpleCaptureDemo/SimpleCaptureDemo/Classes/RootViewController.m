@@ -632,12 +632,16 @@
     [controller pushViewController:viewController animated:YES];
 }
 
-
-- (void)viewDidUnload {
+- (void)didReceiveMemoryWarning {
     [self setTradAuthButton:nil];
     [self setRefetchButton:nil];
-    [super viewDidUnload];
+    [super didReceiveMemoryWarning];
 }
+- (void)dealloc {
+    [self setTradAuthButton:nil];
+    [self setRefetchButton:nil];
+}
+    
 @end
 
 @implementation MyCaptureDelegate

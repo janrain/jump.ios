@@ -27,9 +27,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- File:	 JRConnectionManager.m
+ File:   JRConnectionManager.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, June 1, 2010
+ Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
@@ -78,7 +78,7 @@
 - (id)copyWithZone:(NSZone*)zone
 {
     ConnectionData *objectCopy = [[[self class] allocWithZone:zone] init];
-    
+
     objectCopy.request      = self.request;
     objectCopy.response     = self.response;
     objectCopy.fullResponse = self.fullResponse;
@@ -187,8 +187,6 @@ static JRConnectionManager *singleton = nil;
 
     if (![NSURLConnection canHandleRequest:request])
         return NO;
-    
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
     __block NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -197,19 +195,18 @@ static JRConnectionManager *singleton = nil;
             connectionData.fullResponse = response;
         }
         connectionData.response = [NSMutableData dataWithData:data];
-        
+
             if (error) {
                 [connectionManager taskDidFailWithError:error forConnectionData:connectionData];
-                
-                
+
+
             } else {
                 [connectionManager taskDidFinishLoadingWith:connectionData];
             }
-            
-        
+
+
         });
-        dispatch_semaphore_signal(semaphore);
-        
+
     }];
 
     if (!task)
@@ -224,8 +221,6 @@ static JRConnectionManager *singleton = nil;
     [task resume];
     [connectionManager startActivity];
 
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    
     return YES;
 }
 
@@ -273,7 +268,7 @@ static JRConnectionManager *singleton = nil;
     NSString *p = [[NSString alloc] initWithData:[request HTTPBody] encoding:NSUTF8StringEncoding];
     NSString *url = [request.URL absoluteString];
     DLog(@"URL: \"%@\" params: \"%@\"", url, p);
-    
+
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable e) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (e) {
@@ -298,7 +293,7 @@ static JRConnectionManager *singleton = nil;
             }
         });
     }];
-    
+
     [task resume];
 }
 
@@ -309,7 +304,7 @@ static JRConnectionManager *singleton = nil;
     {
         _connectionBuffers = [[NSMutableArray alloc] init];
     }
-    
+
     return self;
 }
 
@@ -336,12 +331,12 @@ static JRConnectionManager *singleton = nil;
     while ((connectionData = [enumerator nextObject]))
     {
         [connectionData.task cancel];
-        
+
         if ([connectionData tag])
         {
             [[connectionData delegate] connectionWasStoppedWithTag:[connectionData tag]];
         }
-        
+
         [[self connectionBuffers] removeObject:connectionData];
     }
     [self stopActivity];
@@ -353,13 +348,13 @@ static JRConnectionManager *singleton = nil;
     NSData*         responseBody    = [connectionData response];
     id              userData        = [connectionData tag];
     NSStringEncoding encoding       = NSUTF8StringEncoding;
-    
+
     id <JRConnectionManagerDelegate> delegate = [connectionData delegate];
-    
+
     if (![connectionData fullResponse])
     {
         NSString *payload = [[NSString alloc] initWithData:responseBody encoding:encoding];
-        
+
         if ([delegate respondsToSelector:@selector(connectionDidFinishLoadingWithPayload:request:andTag:)])
             [delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userData];
     }
@@ -370,27 +365,27 @@ static JRConnectionManager *singleton = nil;
             [delegate connectionDidFinishLoadingWithFullResponse:fullResponse unencodedPayload:responseBody
                                                          request:request andTag:userData];
     }
-    
+
     JRConnectionManager *connectionManager = [JRConnectionManager getJRConnectionManager];
     [[connectionManager connectionBuffers] removeObject:connectionData];
-    
+
     [self stopActivity];
 }
 
 -(void)taskDidFailWithError:(NSError *)error forConnectionData:(ConnectionData *)connectionData {
     DLog(@"error message: %@", [error localizedDescription]);
-    
+
     NSURLRequest*   request         = [connectionData request];
     id              userData        = [connectionData tag];
-    
+
     id <JRConnectionManagerDelegate> delegate = [connectionData delegate];
-    
+
     if ([delegate respondsToSelector:@selector(connectionDidFailWithError:request:andTag:)])
         [delegate connectionDidFailWithError:error request:request andTag:userData];
-    
+
     JRConnectionManager *connectionManager = [JRConnectionManager getJRConnectionManager];
     [[connectionManager connectionBuffers] removeObject:connectionData];
-    
+
     [self stopActivity];
 }
 @end

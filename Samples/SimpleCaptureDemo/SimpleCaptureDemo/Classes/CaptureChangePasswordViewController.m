@@ -110,7 +110,7 @@
         }];
         
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            updateButton.enabled = YES;
+            self->updateButton.enabled = YES;
         }];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Validation Error" message:errorMessage alertActions:cancelAction, continueAction, nil];

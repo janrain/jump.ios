@@ -301,7 +301,7 @@
                 "have been configured. Please try again later.", nil);
         
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [sessionData triggerAuthenticationDidTimeOutConfiguration];
+            [self->sessionData triggerAuthenticationDidTimeOutConfiguration];
         }];
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"No Available Providers",nil) message:message alertActions:okAction, nil];
@@ -394,7 +394,7 @@
 
     [self.view addSubview:myTraditionalSignInLoadingView];
 }
-
+/*
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     BOOL b;
@@ -405,6 +405,7 @@
     DLog(@"%d", b);
     return b;
 }
+*/
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -511,11 +512,11 @@
     if ([JROpenIDAppAuth canHandleProvider:provider.name])
     {
         [UIView animateWithDuration:0.3 animations:^() {
-            myTableView.hidden = YES;
-            [myActivitySpinner setHidden:NO];
-            [myLoadingLabel setHidden:NO];
-            [myActivitySpinner startAnimating];
-            myLoadingLabel.text = NSLocalizedString(@"Signing in ...",nil);
+            self.myTableView.hidden = YES;
+            [self.myActivitySpinner setHidden:NO];
+            [self.myLoadingLabel setHidden:NO];
+            [self.myActivitySpinner startAnimating];
+            self.myLoadingLabel.text = NSLocalizedString(@"Signing in ...",nil);
         }];
         
         [sessionData setCurrentProvider:provider];
@@ -524,16 +525,16 @@
         [self.openIDAppAuthProvider startAuthenticationWithCompletion:^(NSError *e) {
             if (e) {
                 if ([e.domain isEqualToString:JREngageErrorDomain] && e.code == JRAuthenticationCanceledError) {
-                    [sessionData triggerAuthenticationDidCancel];
+                    [self->sessionData triggerAuthenticationDidCancel];
                 } else if ([e.domain isEqualToString:JREngageErrorDomain]
                            && e.code == JRAuthenticationShouldTryWebViewError) {
                     self.myTableView.hidden = NO;
                     [self stopActivityIndicator];
                     [self startWebViewAuthOnProvider:provider];
                 } else {
-                    myTableView.hidden = NO;
+                    self.myTableView.hidden = NO;
                     [self stopActivityIndicator];
-                    [sessionData triggerAuthenticationDidFailWithError:e];
+                    [self->sessionData triggerAuthenticationDidFailWithError:e];
                 }
             }
         }];

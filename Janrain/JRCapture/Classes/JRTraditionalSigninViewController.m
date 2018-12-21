@@ -274,12 +274,12 @@
             NSLocalizedString(@"Username", nil);
     NSString *title = [NSString stringWithFormat:NSLocalizedString(@"Incorrect %@ or Password", nil), type];
     //NSString *const message = [result objectForKey:@"error"];
-    
+
     UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *forgotPasswordAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Forgot Password", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self showForgottenPasswordAlert];
     }];
-    
+
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:nil alertActions:dismissAction, forgotPasswordAction, nil];
     [self presentViewController:alertController animated:YES completion:nil];
 
@@ -291,30 +291,30 @@
 - (void)showForgottenPasswordAlert
 {
     __weak __block UIAlertController *alertController;
-    
+
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-    
+
     UIAlertAction *sendAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         UITextField *nameOrEmailtextField = alertController.textFields.firstObject;
-        [delegate showLoading];
+        [self.delegate showLoading];
         [JRCapture startForgottenPasswordRecoveryForField:nameOrEmailtextField.text
                                                  delegate:self];
-        
+
     }];
-    
+
     alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Confirm Your Email Address", nil)
                                                                              message:NSLocalizedString(@"We'll send you a link to create a new password.", nil)
                                                                         alertActions:cancelAction, sendAction, nil];
     [self addTexFieldConfigurationForAlertController:alertController];
-    
+
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)addTexFieldConfigurationForAlertController:(UIAlertController *)alertController {
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        UITableViewCell *nameCell = [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        UITableViewCell *nameCell = [self->myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
         NSString *nameOrEmail = ((UITextField *) [nameCell viewWithTag:NAME_TEXTFIELD_TAG]).text;
-        
+
         if (nameOrEmail && ![nameOrEmail isEqualToString:@""]) {
             textField.text = nameOrEmail;
         } else {
@@ -337,9 +337,9 @@
 - (void)forgottenPasswordRecoveryDidSucceed
 {
     [delegate hideLoading];
-    
+
     UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleDefault handler:nil];
-    
+
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Reset Password email Sent", nil)
                                                                             message:@""
                                                                         alertActions:dismissAction, nil];
@@ -370,7 +370,7 @@
     {
         errorMessage = [error.userInfo objectForKey:NSLocalizedFailureReasonErrorKey];
     }
-    
+
     if ([errorMessage length] > 0)
     {
         DLog(@"Forgot Password Recovery error: %@", errorMessage);
@@ -378,17 +378,13 @@
 
     // read the localized error string from JRCaptureError.
     UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleDefault handler:nil];
-    
+
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Could Not Reset Password", nil)
                                                                              message:@""
                                                                         alertActions:dismissAction, nil];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    return YES;
-}
 
 - (BOOL)respondsToSelector:(SEL)aSelector {
     if ([super respondsToSelector:aSelector]) {

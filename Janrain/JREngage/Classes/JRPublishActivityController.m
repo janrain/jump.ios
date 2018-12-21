@@ -1226,7 +1226,7 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
                               style:UIAlertActionStyleDestructive
                             handler:^(UIAlertAction *action) {
                                 NSLog(@"Signing Out");
-                                [self logUserOutForProvider:selectedProvider.name];
+                                [self logUserOutForProvider:self.selectedProvider.name];
                             }]];
     [alertController addAction:
      [UIAlertAction actionWithTitle:@"Cancel"
@@ -1962,34 +1962,6 @@ myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
     [self tabBar:myTabBar didSelectItem:[myTabBar.items objectAtIndex:self.selectedTab]];
 
     [self jrDismissViewControllerAnimated:YES];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    BOOL b;
-    if ([JRUserInterfaceMaestro sharedMaestro].canRotate)
-        b = interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
-    else
-        b = interfaceOrientation == UIInterfaceOrientationPortrait;
-    DLog(@"%d", b);
-    return b;
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-                                         duration:(NSTimeInterval)duration
-{
-    [myTriangleIcon setFrame:CGRectMake([self.alreadyShared containsObject:selectedProvider.name] ?
-            25 :
-            ((self.loggedInUser) ?
-                    ([myTriangleIcon superview].frame.size.width - 90) :
-                    ([myTriangleIcon superview].frame.size.width / 2) - 9), 0, 18, 18)];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [myUserCommentBoundingBox setNeedsDisplay];
-    [myPreviewContainerRoundedRect setNeedsDisplay];
-    [myRichDataContainer setNeedsDisplay];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -194,8 +194,10 @@
     [myWebView becomeFirstResponder];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotate {
+    
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
     BOOL b;
     if ([JRUserInterfaceMaestro sharedMaestro].canRotate)
         b = interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;

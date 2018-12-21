@@ -321,7 +321,7 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
                          // rely on the original transforms numerical value
                          self.dropShadow.layer.transform = self.originalTransform;
                          self.dropShadow.layer.zPosition = self.originalZPosition;
-                         
+
                          [self.modalDimmingView removeFromSuperview];
                          if (self.delayedRotationWhileAnimating)
                              [self attemptRotationWithoutAnimation];
@@ -334,25 +334,6 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
     // http://stackoverflow.com/questions/8594111/forcing-orientation-change
     [self.jrPresentingViewController jrDismissViewControllerAnimated:NO];
     [self.jrPresentingViewController jrPresentViewController:self animated:NO];
-}
-
-- (BOOL)shouldAutomaticallyForwardRotationMethods
-{
-    return NO;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    //return YES;
-    BOOL b = [jrChildViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
-    //DLog(@"b:%i animating:%i orientation:%i", b, self.animating, toInterfaceOrientation);
-    if (self.animating)
-    {
-        //DLog(@"delayed");
-        self.delayedRotationWhileAnimating = b;
-        return NO;
-    }
-    return b;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
@@ -395,29 +376,6 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
                      {
                          [self.modalDimmingView removeFromSuperview];
                      }];
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-                                duration:(NSTimeInterval)duration
-{
-    DLog(@"animating: %i", self.animating);
-    [self cancelAnimation];
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [jrChildViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-                                         duration:(NSTimeInterval)duration
-{
-    DLog(@"animating: %i", self.animating);
-    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [jrChildViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [jrChildViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 - (BOOL)shouldAutomaticallyForwardAppearanceMethods
@@ -589,12 +547,6 @@ static CATransform3D normalizedCATransform3D(CATransform3D d)
     return YES;
 }
 
-// iOS <= 5
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    DLog(@"");
-    return YES;
-}
 
 - (void)dealloc
 {
@@ -871,7 +823,7 @@ static JRUserInterfaceMaestro *singleton = nil;
     UIPopoverPresentationController *popoverPC = [navigationController popoverPresentationController];
     popoverPC.delegate = self;
     popoverPC.barButtonItem = [self.customInterface objectForKey:kJRPopoverPresentationBarButtonItem];
-    
+
     return popoverPC;
 }
 
@@ -936,7 +888,7 @@ static JRUserInterfaceMaestro *singleton = nil;
 
     if (padPopoverMode) {
         self.jrModalViewController.myPopoverPresentationController = [self createPopoverPresentationControllerWithController:jrModalViewController.myNavigationController];
-        
+
     }
 
     /* If the code is used by a universal application and is compiled for versions of iOS that don't
@@ -946,7 +898,7 @@ static JRUserInterfaceMaestro *singleton = nil;
     if (!jrModalViewController.myPopoverPresentationController)
         padPopoverMode = PadPopoverModeNone;
 
-    
+
     // Deprecated - value not used
     /*
     UIPopoverArrowDirection arrowDirection = UIPopoverArrowDirectionAny;
@@ -972,8 +924,8 @@ static JRUserInterfaceMaestro *singleton = nil;
     {
         [jrModalViewController presentModalNavigationController];
     }
-    
-    
+
+
 }
 
 - (void)loadApplicationNavigationControllerWithViewController:(UIViewController *)rootViewController
@@ -1161,7 +1113,7 @@ static JRUserInterfaceMaestro *singleton = nil;
 #pragma mark - UIPopoverPresentationControllerDelegate
 - (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController {
     DLog (@"");
-    
+
     if ([sessionData socialSharing])
         [sessionData triggerPublishingDidCancel];
     else

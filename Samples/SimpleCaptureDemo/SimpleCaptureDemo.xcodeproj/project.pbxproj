@@ -18,7 +18,6 @@
 		19BC04A025012377EE30F823 /* logo_amazon_280x65@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19BC042C5F11B806015E987F /* logo_amazon_280x65@2x.png */; };
 		19BC0C107B9375D96974BA14 /* logo_amazon_280x65.png in Resources */ = {isa = PBXBuildFile; fileRef = 19BC0C00FB7E872C8CEF5A91 /* logo_amazon_280x65.png */; };
 		19BC0FA9A0E7BE30978FA073 /* NSURLRequest+JRQueryParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BC0F1DDACA94695932BBC0 /* NSURLRequest+JRQueryParams.m */; };
-		3306C17245BA3B16978120CA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3306CCC7DCB13B4D32B7F1EB /* Localizable.strings */; };
 		4816D7E4204F03EC00D5DA1C /* libAppAuth-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4816D7E5204F03EC00D5DA1C /* libAppAuth-iOS.a */; };
 		4817766C1E7711E300B3187C /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4817766B1E7711E300B3187C /* LocalAuthentication.framework */; };
 		4817766E1E7721FE00B3187C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08F5 /* main.m */; };
@@ -31,7 +30,6 @@
 		484380E71B5ED19200E63266 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 484380E21B5ED19200E63266 /* SystemConfiguration.framework */; };
 		485D28561BDA9A4B002372DB /* button_googleplus_135x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 485D28551BDA9A4B002372DB /* button_googleplus_135x40.png */; };
 		485FFED72051ECDD006126DC /* janrain-config-default.plist in Resources */ = {isa = PBXBuildFile; fileRef = 485FFED52051ECDD006126DC /* janrain-config-default.plist */; };
-		485FFED82051ECDD006126DC /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 485FFED62051ECDD006126DC /* .gitignore */; };
 		485FFF0D2051ED12006126DC /* JRCurrentLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 485FFEDB2051ED12006126DC /* JRCurrentLocation.m */; };
 		485FFF0E2051ED12006126DC /* JRPrimaryAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 485FFEDC2051ED12006126DC /* JRPrimaryAddress.m */; };
 		485FFF0F2051ED12006126DC /* JROrganizationsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 485FFEDD2051ED12006126DC /* JROrganizationsElement.m */; };
@@ -86,6 +84,8 @@
 		48AEB41C1EAB04E400FD4BFB /* CaptureProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48AEB41A1EAB04E400FD4BFB /* CaptureProfileViewController.m */; };
 		48AEB4221EAB060E00FD4BFB /* CaptureProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48AEB41F1EAB060E00FD4BFB /* CaptureProfileViewController.xib */; };
 		48BC73921B62AE8A001D98FF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48BC738D1B62AE8A001D98FF /* CoreData.framework */; };
+		48C379CF21C99F9B00286354 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3306CCC7DCB13B4D32B7F1EB /* Localizable.strings */; };
+		48C379D321C9A0B600286354 /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48C379D221C9A0B500286354 /* JRPublishActivityController.xib */; };
 		48CB52C91B71077C0091CD10 /* button_instagram_135x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 48CB52C51B71077C0091CD10 /* button_instagram_135x40.png */; };
 		48CB52CA1B71077C0091CD10 /* button_instagram_280x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 48CB52C61B71077C0091CD10 /* button_instagram_280x40.png */; };
 		48CB52CB1B71077C0091CD10 /* button_yahoo_oauth2_135x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 48CB52C71B71077C0091CD10 /* button_yahoo_oauth2_135x40.png */; };
@@ -113,8 +113,6 @@
 		48CB52F81B7125D70091CD10 /* button_googleplus_280x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 48CB52F61B7125D70091CD10 /* button_googleplus_280x40.png */; };
 		48F27AB01BDE97E7007D9BC3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F27AAF1BDE97E7007D9BC3 /* libz.tbd */; };
 		48F27AB21BDE97FE007D9BC3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F27AB11BDE97FE007D9BC3 /* libsqlite3.0.tbd */; };
-		4DB994B718A3F82D00E4D116 /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DB994B918A3F82D00E4D116 /* JRPublishActivityController.xib */; };
-		4DB994BD18A3F84B00E4D116 /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DB994BB18A3F84B00E4D116 /* JRPublishActivityController.xib */; };
 		4ED8382D17EC307900CA9645 /* LinkedProfilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED8382C17EC307900CA9645 /* LinkedProfilesViewController.m */; };
 		6706F51EE167DE5FFF64E224 /* CaptureDynamicForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 6706F39D56CA252D2415997F /* CaptureDynamicForm.m */; };
 		6706FCE93985E90E4040B262 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6706F8DC7856E86A423C2108 /* PickerViewController.m */; };
@@ -122,9 +120,7 @@
 		90C36B6B7717AA0C893E08EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08E9 /* UIKit.framework */; };
 		90C36B6B7717AA0C893E08EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08EB /* Foundation.framework */; };
 		90C36B6B7717AA0C893E08EE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08ED /* CoreGraphics.framework */; };
-		9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8215336470002BF452 /* InfoPlist.strings */; };
 		9F7B6A9915336480002BF452 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A9215336480002BF452 /* RootViewController.m */; };
-		9F7B6AAC1533648C002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A9F1533648C002BF452 /* InfoPlist.strings */; };
 		9F7B6AAD1533648C002BF452 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6AA11533648C002BF452 /* MainStoryboard.storyboard */; };
 		9F7B6AB01533648C002BF452 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6AA81533648C002BF452 /* background.png */; };
 		C142424E43DA098E32674AE7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C142401A5A8AAAFC251E5853 /* QuartzCore.framework */; };
@@ -374,7 +370,6 @@
 		484380E21B5ED19200E63266 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		485D28551BDA9A4B002372DB /* button_googleplus_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_googleplus_135x40.png; sourceTree = "<group>"; };
 		485FFED52051ECDD006126DC /* janrain-config-default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "janrain-config-default.plist"; sourceTree = "<group>"; };
-		485FFED62051ECDD006126DC /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		485FFEDB2051ED12006126DC /* JRCurrentLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCurrentLocation.m; sourceTree = "<group>"; };
 		485FFEDC2051ED12006126DC /* JRPrimaryAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPrimaryAddress.m; sourceTree = "<group>"; };
 		485FFEDD2051ED12006126DC /* JROrganizationsElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JROrganizationsElement.m; sourceTree = "<group>"; };
@@ -461,6 +456,7 @@
 		48AEB41A1EAB04E400FD4BFB /* CaptureProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptureProfileViewController.m; path = Classes/CaptureProfileViewController.m; sourceTree = "<group>"; };
 		48AEB4201EAB060E00FD4BFB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = CaptureProfileViewController.xib; sourceTree = "<group>"; };
 		48BC738D1B62AE8A001D98FF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		48C379D221C9A0B500286354 /* JRPublishActivityController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JRPublishActivityController.xib; sourceTree = "<group>"; };
 		48CB52C51B71077C0091CD10 /* button_instagram_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_instagram_135x40.png; sourceTree = "<group>"; };
 		48CB52C61B71077C0091CD10 /* button_instagram_280x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_instagram_280x40.png; sourceTree = "<group>"; };
 		48CB52C71B71077C0091CD10 /* button_yahoo_oauth2_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_yahoo_oauth2_135x40.png; sourceTree = "<group>"; };
@@ -489,8 +485,6 @@
 		48F27AAF1BDE97E7007D9BC3 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		48F27AB11BDE97FE007D9BC3 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		4D60E0D0187F1D1F006A6744 /* JRCaptureEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureEnvironment.h; sourceTree = "<group>"; };
-		4DB994B818A3F82D00E4D116 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/JRPublishActivityController.xib; sourceTree = "<group>"; };
-		4DB994BC18A3F84B00E4D116 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = JRPublishActivityController.xib; sourceTree = "<group>"; };
 		4ED8382B17EC307900CA9645 /* LinkedProfilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LinkedProfilesViewController.h; path = Classes/LinkedProfilesViewController.h; sourceTree = "<group>"; };
 		4ED8382C17EC307900CA9645 /* LinkedProfilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LinkedProfilesViewController.m; path = Classes/LinkedProfilesViewController.m; sourceTree = "<group>"; };
 		6706F177967F38CF7CA5D0FC /* CaptureDynamicForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptureDynamicForm.h; path = Classes/CaptureDynamicForm.h; sourceTree = "<group>"; };
@@ -510,7 +504,6 @@
 		9F7B6A8615336480002BF452 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		9F7B6A9115336480002BF452 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
 		9F7B6A9215336480002BF452 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
-		9F7B6AA01533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		9F7B6AA21533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
 		9F7B6AA81533648C002BF452 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		9F9506FE14FEA79000335A12 /* SimpleCaptureDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimpleCaptureDemo.entitlements; sourceTree = "<group>"; };
@@ -810,7 +803,6 @@
 			isa = PBXGroup;
 			children = (
 				485FFED52051ECDD006126DC /* janrain-config-default.plist */,
-				485FFED62051ECDD006126DC /* .gitignore */,
 			);
 			name = assets;
 			path = Resources/assets;
@@ -880,14 +872,6 @@
 				485FFF082051ED12006126DC /* JRAccountsElement.h */,
 			);
 			path = Generated;
-			sourceTree = "<group>";
-		};
-		4DB994BA18A3F84B00E4D116 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				4DB994BB18A3F84B00E4D116 /* JRPublishActivityController.xib */,
-			);
-			path = en.lproj;
 			sourceTree = "<group>";
 		};
 		90C36B6B7717AA0C893E08DC = {
@@ -1001,7 +985,6 @@
 			isa = PBXGroup;
 			children = (
 				48AEB41F1EAB060E00FD4BFB /* CaptureProfileViewController.xib */,
-				9F7B6A9F1533648C002BF452 /* InfoPlist.strings */,
 				9F7B6AA11533648C002BF452 /* MainStoryboard.storyboard */,
 				DFFAB79F1FAD2B77005BA6D1 /* CaptureDynamicForm.xib */,
 			);
@@ -1498,8 +1481,7 @@
 		DFEFE49D17A9915200760FEE /* xibs */ = {
 			isa = PBXGroup;
 			children = (
-				4DB994BA18A3F84B00E4D116 /* en.lproj */,
-				4DB994B918A3F82D00E4D116 /* JRPublishActivityController.xib */,
+				48C379D221C9A0B500286354 /* JRPublishActivityController.xib */,
 				DFEFE49E17A9915200760FEE /* JRProvidersController.xib */,
 				DFEFE4A017A9915200760FEE /* JRUserLandingController.xib */,
 				DFEFE4A117A9915200760FEE /* JRWebViewController.xib */,
@@ -1535,7 +1517,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0600;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1010;
 				TargetAttributes = {
 					90C36B6B7717AA0C893E08E1 = {
 						DevelopmentTeam = 3GSSC5Q8U3;
@@ -1570,9 +1552,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */,
+				48C379CF21C99F9B00286354 /* Localizable.strings in Resources */,
 				48CB52E71B7108AA0091CD10 /* icon_bw_instagram_30x30@2x.png in Resources */,
-				9F7B6AAC1533648C002BF452 /* InfoPlist.strings in Resources */,
 				9F7B6AAD1533648C002BF452 /* MainStoryboard.storyboard in Resources */,
 				9F7B6AB01533648C002BF452 /* background.png in Resources */,
 				48A85E8B1BEBD4E5004CBA61 /* button_paypal_280x40.png in Resources */,
@@ -1583,7 +1564,6 @@
 				DFEFE4A217A9915200760FEE /* ATTRIBUTION in Resources */,
 				48A85E761BEBD42F004CBA61 /* button_paypal_openidconnect_135x40.png in Resources */,
 				DFEFE4B317A9915200760FEE /* JREngage-Info.plist in Resources */,
-				4DB994BD18A3F84B00E4D116 /* JRPublishActivityController.xib in Resources */,
 				DFEFE4B517A9915200760FEE /* button_black_135x40.png in Resources */,
 				DFEFE4B617A9915200760FEE /* button_black_280x40.png in Resources */,
 				48CB52EC1B7108D00091CD10 /* logo_yahoo_oauth2_280x65@2x.png in Resources */,
@@ -1592,7 +1572,6 @@
 				D823C6F3189C2FD200993DAE /* icon_microsoftaccount_30x30@2x.png in Resources */,
 				48A85E811BEBD499004CBA61 /* button_paypal_openidconnect_280x40@2x.png in Resources */,
 				DFEFE4B717A9915200760FEE /* button_facebook_135x40.png in Resources */,
-				485FFED82051ECDD006126DC /* .gitignore in Resources */,
 				DFEFE4B817A9915200760FEE /* button_facebook_280x40.png in Resources */,
 				DFEFE4B917A9915200760FEE /* button_google_135x40.png in Resources */,
 				48CB52C91B71077C0091CD10 /* button_instagram_135x40.png in Resources */,
@@ -1640,7 +1619,6 @@
 				48CB52D41B7107B50091CD10 /* icon_bw_yahoo_oauth2_30x30.png in Resources */,
 				48CB52EB1B7108D00091CD10 /* logo_instagram_280x65@2x.png in Resources */,
 				DFEFE4D817A9915300760FEE /* icon_soundcloud_30x30.png in Resources */,
-				4DB994B718A3F82D00E4D116 /* JRPublishActivityController.xib in Resources */,
 				DFEFE4D917A9915300760FEE /* icon_tumblr_30x30.png in Resources */,
 				DFEFE4DA17A9915300760FEE /* icon_twitter_30x30.png in Resources */,
 				48994B7D1F3B99BC00F7826F /* background@2x.png in Resources */,
@@ -1741,6 +1719,7 @@
 				48994B7F1F3B99BC00F7826F /* Default-568h@2x.png in Resources */,
 				48CB52F81B7125D70091CD10 /* button_googleplus_280x40.png in Resources */,
 				DFEFE52617A9915300760FEE /* icon_salesforce_30x30@2x.png in Resources */,
+				48C379D321C9A0B600286354 /* JRPublishActivityController.xib in Resources */,
 				48CB52CC1B71077C0091CD10 /* button_yahoo_oauth2_280x40.png in Resources */,
 				DFEFE52717A9915300760FEE /* icon_soundcloud_30x30@2x.png in Resources */,
 				DFEFE52817A9915300760FEE /* icon_tumblr_30x30@2x.png in Resources */,
@@ -1805,7 +1784,6 @@
 				D8E0218D17D14CFB00013803 /* logo_googleplus_280x65.png in Resources */,
 				D8E0218F17D14D0C00013803 /* icon_googleplus_30x30@2x.png in Resources */,
 				D8E0219117D14D1800013803 /* logo_googleplus_280x65@2x.png in Resources */,
-				3306C17245BA3B16978120CA /* Localizable.strings in Resources */,
 				48CB52D01B7107A00091CD10 /* icon_yahoo_oauth2_30x30.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1929,34 +1907,10 @@
 			name = CaptureProfileViewController.xib;
 			sourceTree = "<group>";
 		};
-		4DB994B918A3F82D00E4D116 /* JRPublishActivityController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4DB994B818A3F82D00E4D116 /* en */,
-			);
-			name = JRPublishActivityController.xib;
-			sourceTree = "<group>";
-		};
-		4DB994BB18A3F84B00E4D116 /* JRPublishActivityController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4DB994BC18A3F84B00E4D116 /* en */,
-			);
-			name = JRPublishActivityController.xib;
-			sourceTree = "<group>";
-		};
 		9F7B6A8215336470002BF452 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				9F7B6A8315336470002BF452 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		9F7B6A9F1533648C002BF452 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9F7B6AA01533648C002BF452 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1989,11 +1943,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -2031,11 +1987,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -2161,11 +2119,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
