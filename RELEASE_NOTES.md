@@ -1,4 +1,7 @@
 v5.4.1
+* Fix serverUrl value
+
+v5.4.1
 * Fix url encoding for special characters like ?,+,=,&.
 
 v5.4
