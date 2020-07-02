@@ -39,8 +39,7 @@
 #import "JREngage+CustomInterface.h"
 #import "JRJsonUtils.h"
 
-//static NSString *serverUrl = @"https://rpxnow.com";
-static NSString *serverUrl = @"https://jrauthenticationstaging.rpxstaging.com";
+static NSString *serverUrl = @"https://rpxnow.com";
 static NSString *engageWhitelistedDomain = @"";
 
 #pragma mark consts
