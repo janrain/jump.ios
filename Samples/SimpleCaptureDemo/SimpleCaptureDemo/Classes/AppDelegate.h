@@ -56,6 +56,7 @@ extern AppDelegate *appDelegate;
 @property(nonatomic) NSString *captureTraditionalRegistrationFormName;
 @property(nonatomic) NSString *captureSocialRegistrationFormName;
 @property(nonatomic) NSString *captureAppId;
+@property(nonatomic) NSString *captureFlowURL;
 @property(nonatomic) NSString *engageAppId;
 @property(nonatomic) NSString *registrationToken;
 @property(nonatomic) NSDictionary *customProviders;
