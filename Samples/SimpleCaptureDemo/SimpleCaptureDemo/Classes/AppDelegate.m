@@ -37,6 +37,7 @@
 #import "JRCaptureConfig.h"
 #import "JRCaptureError.h"
 #import "JREngage.h"
+#import "UIAlertController+JRAlertController.h"
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 
@@ -72,6 +73,7 @@ AppDelegate *appDelegate = nil;
 @synthesize captureTraditionalRegistrationFormName;
 @synthesize captureSocialRegistrationFormName;
 @synthesize captureAppId;
+@synthesize captureFlowURL;
 @synthesize customProviders;
 @synthesize captureForgottenPasswordFormName;
 @synthesize captureEditProfileFormName;
@@ -115,6 +117,7 @@ AppDelegate *appDelegate = nil;
     config.captureTraditionalRegistrationFormName = captureTraditionalRegistrationFormName;
     config.captureSocialRegistrationFormName = captureSocialRegistrationFormName;
     config.captureAppId = captureAppId;
+    config.downloadFlowUrl = captureFlowURL;
     config.forgottenPasswordFormName = captureForgottenPasswordFormName;
     config.editProfileFormName = captureEditProfileFormName;
     config.resendEmailVerificationFormName = resendVerificationFormName;
@@ -228,6 +231,8 @@ AppDelegate *appDelegate = nil;
         self.captureSocialRegistrationFormName = [cfg objectForKey:@"captureSocialRegistrationFormName"];
     if ([cfg objectForKey:@"captureAppId"])
         self.captureAppId = [cfg objectForKey:@"captureAppId"];
+    if ([cfg objectForKey:@"captureFlowDomain"])
+        self.captureFlowURL = [cfg objectForKey:@"captureFlowDomain"];
     if ([cfg objectForKey:@"engageAppId"])
         self.engageAppId = [cfg objectForKey:@"engageAppId"];
     if ([cfg objectForKey:@"engageWhitelistedDomain"])
@@ -238,8 +243,8 @@ AppDelegate *appDelegate = nil;
         self.captureEditProfileFormName = [cfg objectForKey:@"captureEditProfileFormName"];
     if ([cfg objectForKey:@"resendVerificationFormName"])
         self.resendVerificationFormName = [cfg objectForKey:@"resendVerificationFormName"];
-    if ([cfg objectForKey:@"rpxDomain"])
-        [JRSessionData setServerUrl:[NSString stringWithFormat:@"https://%@", [cfg objectForKey:@"rpxDomain"]]];
+    if ([cfg objectForKey:@"engageDomain"])
+        [JRSessionData setServerUrl:[NSString stringWithFormat:@"https://%@", [cfg objectForKey:@"engageDomain"]]];
     if ([cfg objectForKey:@"flowUsesTestingCdn"])
     {
         BOOL useTestingCdn = [[cfg objectForKey:@"flowUsesTestingCdn"] boolValue];
@@ -266,6 +271,17 @@ AppDelegate *appDelegate = nil;
         NSLog(@"JRCaptureError! Desc=%@", [error localizedDescription]);
         for (NSString *key in [[error userInfo] allKeys]){
             NSLog(@"JRCaptureError:%@", [[error userInfo] objectForKey:key]);
+        }
+        
+        if (notification.name == JRDownloadFlowResult) {
+            UIAlertAction *dismissAction =  [UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error downlaoding flow" message:[error localizedDescription] alertActions:dismissAction, nil];
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                 [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+            });
+           
         }
     }
     else

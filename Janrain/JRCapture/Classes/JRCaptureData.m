@@ -266,6 +266,7 @@ static JRCaptureData *singleton = nil;
     captureDataInstance.captureSocialRegistrationFormName = config.captureSocialRegistrationFormName;
     captureDataInstance.captureFlowVersion = config.captureFlowVersion;
     captureDataInstance.captureAppId = config.captureAppId;
+    captureDataInstance.downloadFlowUrl = config.downloadFlowUrl;
     captureDataInstance.captureForgottenPasswordFormName = config.forgottenPasswordFormName;
     captureDataInstance.captureEditProfileFormName = config.editProfileFormName;
     captureDataInstance.resendEmailVerificationFormName = config.resendEmailVerificationFormName;
@@ -299,7 +300,7 @@ static JRCaptureData *singleton = nil;
 - (void)downloadFlow
 {
     NSString *flowVersion = self.captureFlowVersion ? self.captureFlowVersion : @"HEAD";
-
+    
     NSString *flowUrlString = @"";
     
     if (self.downloadFlowUrl.length > 0){
@@ -313,7 +314,7 @@ static JRCaptureData *singleton = nil;
                          self.captureAppId, self.captureFlowName, flowVersion,
                          self.captureLocale];
     }
-    
+
     NSMutableURLRequest *downloadRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:flowUrlString]];
     [downloadRequest setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
     
@@ -329,13 +330,13 @@ static JRCaptureData *singleton = nil;
         {
             ALog(@"Error downloading flow: %@", e);
             NSNotification *notification = [NSNotification notificationWithName:JRDownloadFlowResult object:e];
-            [[NSNotificationQueue defaultQueue] enqueueNotification:notification postingStyle:NSPostWhenIdle];
+            [[NSNotificationQueue defaultQueue] enqueueNotification:notification postingStyle:NSPostNow];
             return;
         }
         DLog(@"Fetched flow URL: %@", flowUrlString);
         NSError *error = [self processFlow:data response:(NSHTTPURLResponse *) response];
         NSNotification *notification = [NSNotification notificationWithName:JRDownloadFlowResult object:error];
-        [[NSNotificationQueue defaultQueue] enqueueNotification:notification postingStyle:NSPostWhenIdle];
+        [[NSNotificationQueue defaultQueue] enqueueNotification:notification postingStyle:NSPostNow];
     }];
     
     [task resume];

@@ -1127,20 +1127,13 @@ static JRSessionData *singleton = nil;
         extraParamString = [NSString stringWithFormat:@"saml_provider=%@&", provider.samlName];
     }
 
-    NSString *uuid = [[self deviceIdentifier] stringByAddingUrlPercentEscapes];
-
     BOOL forceReauthFlag = (alwaysForceReauth || currentProvider.forceReauthStartUrlFlag) ? YES : NO;
 
     if (forceReauthFlag)
         deleteWebViewCookiesForDomains(provider.cookieDomains);
-//    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    NSString *whitlistedDomain = delegates.engage
-    NSString *urlString = [NSString stringWithFormat:@"%@%@?%@%@device=%@&extended=true&installation_id=%@",
-                                                     baseUrl, provider.relativeUrl, extraParamString,
-                                                     forceReauthFlag ? @"force_reauth=true&" : @"",
-                                                     [self device], uuid];
-    urlString = [NSString stringWithFormat:@"%@%@?token_url=%@/", baseUrl, provider.relativeUrl, engageWhitelistedDomain];
-//    urlString = @"https://jrauthenticate.rpxnow.com/twitter/start?token_url=jrmsampleapp1://jrmsampleapp1/";
+
+    NSString *urlString = [NSString stringWithFormat:@"%@%@?token_url=%@/&applicationId=%@", baseUrl, provider.relativeUrl, engageWhitelistedDomain, self.appId];
+
 
 
     provider.forceReauthStartUrlFlag = NO;

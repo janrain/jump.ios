@@ -1,12 +1,50 @@
-v5.4.1
-* Fix serverUrl value
+v5.5
+* The library now supports the China region for Capture and social sign in.
+* The configuration files (.plist) require new keys if your application needs to work in China (these keys are optional for any other region):
+  * The required keys are: `captureFlowDomain` and `engageDomain`.  
+  With these keys you don't need to modify the library source code; you only need to modify your configuration file.   
+  Here is a brief example of a configuration file using these new keys:
+  ```xml
+  ...
+  <!--Other keys your file may have -->
+  ...
+  <key>engageAppId</key>
+	<string>{YoutEngageAppId}</string>
+	<key>engageDomain</key>
+	<string>yourengage.domain.com</string> 
+	<key>engageWhitelistedDomain</key>
+	<string>{YourWhitelistedDomain}</string>
+	<key>captureDomain</key>
+	<string>{YourCaptureDomain}</string>
+	<key>captureClientId</key>
+	<string>{YourCaptureClientId}</string>
+	<key>captureFlowName</key>
+	<string>{FlowName}</string>
+	<key>captureAppId</key>
+	<string>{YourCaptureAppId}</string>
+	<key>captureFlowDomain</key>
+	<string>yourcaptureflow.domain.com</string>
+	<key>captureForgottenPasswordFormName</key>
+	<string>forgotPasswordForm</string>
+    ...
+  <!--Other keys your file may have -->
+  ...
+  ```
+
+> **Remember:** These new keys are optional if your application is used in regions other than China.
+
+* Changed the NSNotifications sent when there is a problem with the URL that downloads the flow; the posting style has been changed to NSPostNow. This change was made in *JRCaptureData.m*
+*  Added the file [China_Configuration_Guide.md](Docs/China_Configuration_Guide.md) explaining the process that uses these new keys.
+
+v5.4.2
+* Added the "applicationId" parameter in the provider URL for social sign in. This parameter is required for the China region and is optional for other regions.
+
 
 v5.4.1
-* Fix url encoding for special characters like ?,+,=,&.
+* Fix URL encoding for special characters like ?,+,=,&.
 
 v5.4
-* Now you can use Line as a provider for your application in the social sign in.
-
+* Now you can use Line as a provider for your application in the social sign ins.
 
 v5.3
 * Add Sign in with Apple. Now you can sign in with Apple as a provider in your applications. You can do the sign in by web (for any iOS version) or with the native button `ASAUthorizationAppleIDButton` (for iOS 13+).
@@ -14,10 +52,10 @@ v5.3
 v5.2
 
 * Refactored `JRWebViewController` class, now it uses WKWebView (goodbye UIWebView). 
-* Now you need to add, in your configuration `.plist` file, a new key called `engageWhitelistedDomain` with the white listed domain that you registered in your Engage's app. (See the SimpleCaptureDemo project for this).
+* Now you need to add, in your configuration `.plist` file, a new key called `engageWhitelistedDomain` with the white listed domain that you registered in your Social Login app. (See the SimpleCaptureDemo project for this).
   * To add a whitelisted domain, go to your [Social Login dashboard](https://dashboard.janrain.com/) and select the Engage App that you are using in your project. Select *Domains* in the Settings section.
   * Add the domain name (no protocol is needed) in *Domain Whitelist*. The domain format added should be `[WhitelistedDomain]://*` with the `://*` at the end. 
-  * In Xcode, assign this new whitlestied domain to the `engageWhitelistedDomain` key with a path after the `://`. Like this `[WhitelistedDomain]]://[Path]` in your configuration .plist file.
+  * In Xcode, assign this new allow-listed domain to the `engageWhitelistedDomain` key with a path after the `://`. Like this `[WhitelistedDomain]]://[Path]` in your configuration .plist file.
   
     The whitelisted domain in your configuration file should look like this:
             
